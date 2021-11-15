@@ -14,8 +14,24 @@ const fetchBusArrivals = async (busStopCode) => {
     const response = await fetch(busArrivalApiCall(busStopCode));
     const myJson = await response.json(); //extract JSON from the http response
     // do something with myJson
-    return myJson;
+    displayArriavals(myJson);
 };
 
-const arrivals = fetchBusArrivals(28461);
-console.log(arrivals);
+function displayArriavals(myJson) {
+    for (let service of myJson.services) {
+        // display in mins, rounded down
+        const minsUntilArrival = Math.floor(service.next.duration_ms / 60000);
+
+        addTextToWebpage(`${service.no}: ${minsUntilArrival} mins`);
+    }
+}
+
+function addTextToWebpage(str) {
+    const newItem = document.createElement("li");
+    newItem.innerText = str;
+    messageList.appendChild(newItem);
+}
+
+const messageList = document.getElementById("output");
+
+fetchBusArrivals(28461);
