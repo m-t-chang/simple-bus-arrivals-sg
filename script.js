@@ -19,19 +19,28 @@ const fetchBusArrivals = async (busStopCode) => {
 
 function displayArriavals(myJson) {
     for (let service of myJson.services) {
-        // display in mins, rounded down
-        const minsUntilArrival = Math.floor(service.next.duration_ms / 60000);
+        if (service.no === "185") {
+            // display in mins, rounded down
+            const minsUntilArrival = Math.floor(
+                service.next.duration_ms / 60000
+            );
 
-        addTextToWebpage(`${service.no}: ${minsUntilArrival} mins`);
+            addTextToWebpage("Blk 347", service.no, minsUntilArrival);
+        }
     }
 }
 
-function addTextToWebpage(str) {
-    const newItem = document.createElement("li");
-    newItem.innerText = str;
-    messageList.appendChild(newItem);
+function addTextToWebpage(stopName, serviceNo, mins) {
+    // const newItem = document.createElement("li");
+    // newItem.innerText = str;
+    // messageList.appendChild(newItem);
+    textStopName.innerHTML = stopName;
+    textServiceNo.innerHTML = serviceNo;
+    textDuration.innerHTML = `${mins} mins`;
 }
 
-const messageList = document.getElementById("output");
+const textStopName = document.getElementById("stop-name");
+const textServiceNo = document.getElementById("service-no");
+const textDuration = document.getElementById("duration");
 
 fetchBusArrivals(28461);
