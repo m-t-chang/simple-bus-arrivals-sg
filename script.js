@@ -55,3 +55,24 @@ console.log("testing file read");
 const busStops = busStopsJson.value;
 const busServices = busServicesJson.value;
 const busRoutes = busRoutesJson.value;
+
+//////// test out read JSON file
+// second answer from https://stackoverflow.com/questions/19706046/how-to-read-an-external-local-json-file-in-javascript
+
+function readTextFile(file, callback) {
+    var rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType("application/json");
+    rawFile.open("GET", file, true);
+    rawFile.onreadystatechange = function () {
+        if (rawFile.readyState === 4 && rawFile.status == "200") {
+            callback(rawFile.responseText);
+        }
+    };
+    rawFile.send(null);
+}
+
+//usage:
+readTextFile("file-test.json", function (text) {
+    var data = JSON.parse(text);
+    console.log(data);
+});
