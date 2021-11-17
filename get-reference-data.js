@@ -45,6 +45,12 @@ const dataObject = JSON.parse(dataAsJson);
 // Download data from API
 ///////////////////////////////
 
+// use node-fetch to make API requests
+// see: https://stackabuse.com/making-http-requests-in-node-js-with-node-fetch/
+
+// set up node-fetch
+const fetch = require("node-fetch");
+
 // create Header for API
 const myHeaders = new Headers({
     AccountKey: config.API_ACCOUNT_KEY,
@@ -65,6 +71,3 @@ const fetchBusStops = async () => {
 };
 
 fetchBusStops();
-
-// use node-fetch to make API requests
-// see: https://stackabuse.com/making-http-requests-in-node-js-with-node-fetch/
