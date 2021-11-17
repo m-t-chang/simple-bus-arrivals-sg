@@ -1,0 +1,5 @@
+# config files
+config.js
+
+# Dependency directories
+node_modules/
