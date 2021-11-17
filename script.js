@@ -44,3 +44,14 @@ const textServiceNo = document.getElementById("service-no");
 const textDuration = document.getElementById("duration");
 
 fetchBusArrivals(28461);
+
+//////// testing out read file
+
+console.log("testing file read");
+
+// Do some data cleaning
+
+// load the actual data into objects
+const busStops = busStopsJson.value;
+const busServices = busServicesJson.value;
+const busRoutes = busRoutesJson.value;

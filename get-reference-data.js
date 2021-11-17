@@ -71,3 +71,20 @@ const fetchBusStops = async () => {
 };
 
 fetchBusStops();
+
+///////////////////////////////
+// Parse JSON files
+///////////////////////////////
+
+/*
+Practicing reading in the JSON files via the browser
+*/
+
+// read file
+let dataAsJson = "";
+try {
+    dataAsJson = fs.readFileSync("bus-stops.json", "utf8");
+} catch (err) {
+    console.error(err);
+}
+const dataObject = JSON.parse(dataAsJson);
