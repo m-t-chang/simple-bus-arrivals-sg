@@ -176,7 +176,13 @@ function clearCards() {
 
 // define global variables
 let busServices;
-const cardStack = [new ArrivalCard("Blk 347", "###")];
+
+// load data from local storage, if it exists
+const cardStack = [];
+console.log("localstorage", localStorage.getItem("cardStack"));
+if (localStorage.getItem("cardStack") !== null) {
+    cardStack.push(...JSON.parse(localStorage.getItem("cardStack")));
+}
 
 // on page load:
 window.onload = () => {
@@ -192,10 +198,9 @@ window.onload = () => {
     // start repeating to update
     //setInterval(refreshData, 5000);
 
-    // test local storage
-    console.log(localStorage);
-    localStorage.setItem("test1", "hello");
-
     // get data [OLD CODE]
     //fetchBusArrivals(28461);
+
+    // update display
+    displayCards();
 };
