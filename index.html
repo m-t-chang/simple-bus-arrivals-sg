@@ -4,16 +4,24 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+            rel="stylesheet"
+        />
         <link rel="stylesheet" href="style.css" />
         <title>Bus App</title>
     </head>
     <body>
         <h1>Bus Arrival Times 巴士</h1>
 
-        <div class="card">
-            <p id="stop-name">Blk 347</p>
-            <p id="service-no"></p>
-            <p id="duration"></p>
+        <div id="card-stack">
+            <div class="card">
+                <div class="stop-name">Blk 347</div>
+                <div class="service-no"></div>
+                <div class="duration"></div>
+            </div>
         </div>
 
         <div id="add-new">
