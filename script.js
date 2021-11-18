@@ -34,30 +34,46 @@ function addTextToWebpage(stopName, serviceNo, mins) {
     // const newItem = document.createElement("li");
     // newItem.innerText = str;
     // messageList.appendChild(newItem);
-    textStopName.innerHTML = stopName;
-    textServiceNo.innerHTML = serviceNo;
-    textDuration.innerHTML = `${mins} mins`;
+    document.querySelector(".stop-name").innerHTML = stopName;
+    document.querySelector(".service-no").innerHTML = serviceNo;
+    document.querySelector(".duration").innerHTML = `${mins} mins`;
 }
 
-const textStopName = document.getElementById("stop-name");
-const textServiceNo = document.getElementById("service-no");
-const textDuration = document.getElementById("duration");
+const arrivalCards = [
+    {
+        stopName: "Blk 347",
+        serivceNo: "xxx",
+        duration: "x min",
+    },
+];
+
+function addCardsToWebpage() {
+    arrivalCards.map((card) => {
+        // create elements
+        const divCard = document.createElement("div");
+        divCard.className = "card";
+
+        const divStopName = document.createElement("div");
+        divStopName.innerHTML = card.stopName;
+        divStopName.className = "stop-name";
+
+        const divServiceNo = document.createElement("div");
+        divServiceNo.innerHTML = card.serivceNo;
+        divServiceNo.className = "service-no";
+
+        const divDuration = document.createElement("div");
+        divDuration.innerHTML = card.duration;
+        divDuration.className = "duration";
+
+        // append
+        divCard.append(divStopName, divServiceNo, divDuration);
+        document.querySelector("#card-stack").append(divCard);
+
+        console.log(divCard);
+    });
+}
 
 fetchBusArrivals(28461);
-
-//////// testing out read file
-
-console.log("testing file read");
-
-// Do some data cleaning
-
-/*
-// NOT READING FROM .JS FILES ANYMORE
-// load the actual data into objects
-const busStops = busStopsJson.value;
-const busServices = busServicesJson.value;
-const busRoutes = busRoutesJson.value;
-*/
 
 //////// test out read JSON file
 // second answer from https://stackoverflow.com/questions/19706046/how-to-read-an-external-local-json-file-in-javascript
@@ -93,6 +109,7 @@ readTextFile("data/bus-services.json", function (text) {
 
 function pressButton(e) {
     console.log(document.querySelector("#select-service").value);
+    addCardsToWebpage();
 }
 
 function refreshData() {
