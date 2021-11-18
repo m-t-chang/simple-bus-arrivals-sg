@@ -1,40 +1,62 @@
-// to run this file, use this command in terminal
-//
-//      API_ACCOUNT_KEY=<account key, no quotes> node <filename>
-
-import fetch from "node-fetch";
 /*
-// template
-const response = await fetch("https://api.github.com/users/github");
-const data = await response.json();
 
-console.log(data);
+The purpose of this file is to prepare the static data.
+
+The script will create 3 .json files, which the app will use.
+
+
+This file is .mjs to allow NodeJS to use import function.
+
+To run this file, use this command in terminal
+
+      API_ACCOUNT_KEY=<account key, no quotes> node <filename>
+
+
+Assumptions:
+- LTA's API call returns a JSON object, with key "metadata" and "value". 
+- "Value" contains an array of objects
+
 */
 
-/*const myHeaders = new fetch.Headers({
-    AccountKey: config.API_ACCOUNT_KEY,
-    accept: "application/json",
-});*/
+// imports
+// for more info, see: https://github.com/node-fetch/node-fetch
+import fetch from "node-fetch";
+import * as fs from "fs"; // for writing the .json file
 
-const response = await fetch(
-    "http://datamall2.mytransport.sg/ltaodataservice/BusStops?$skip=500",
+// define variables
+const apiSpecs = [
     {
-        headers: {
-            AccountKey: process.env.API_ACCOUNT_KEY,
-            accept: "application/json",
-        },
-    }
-);
-const myJson = await response.json(); //extract JSON from the http response
+        name: "Bus Services",
+        endpoint: "http://datamall2.mytransport.sg/ltaodataservice/BusServices",
+        outputFile: "data/bus-services.json",
+    },
+    {
+        name: "Bus Routes",
+        endpoint: "http://datamall2.mytransport.sg/ltaodataservice/BusRoutes",
+        outputFile: "data/bus-routes.json",
+    },
+    {
+        name: "Bus Stops",
+        endpoint: "http://datamall2.mytransport.sg/ltaodataservice/BusStops",
+        outputFile: "data/bus-stops.json",
+    },
+];
 
-// do something with myJson
-console.log(typeof myJson);
-console.log(myJson.value[0]);
+// call API
+const response = await fetch(apiSpecs[0].endpoint + "?$skip=500", {
+    headers: {
+        AccountKey: process.env.API_ACCOUNT_KEY,
+        accept: "application/json",
+    },
+});
+const dataJson = await response.json(); //extract JSON from the http response
 
-// try saving the file
-import * as fs from "fs";
+// test code
+//console.log(typeof dataJson);
+//console.log(dataJson.value[0]);
 
-fs.writeFile("file-test.json", JSON.stringify(myJson.value), (err) => {
+// save the file
+fs.writeFile(apiSpecs[0].outputFile, JSON.stringify(dataJson.value), (err) => {
     if (err) {
         throw err;
     }
