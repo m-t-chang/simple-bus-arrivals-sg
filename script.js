@@ -90,3 +90,35 @@ readTextFile("data/bus-services.json", function (text) {
         document.querySelector("#select-service").append(opt);
     });
 });
+
+function pressButton(e) {
+    console.log(document.querySelector("#select-service").value);
+}
+
+function refreshData() {
+    console.log("refresh data placeholder");
+
+    var currentdate = new Date();
+    var datetime =
+        "Last Sync: " +
+        currentdate.getDate() +
+        "/" +
+        (currentdate.getMonth() + 1) +
+        "/" +
+        currentdate.getFullYear() +
+        " @ " +
+        currentdate.getHours() +
+        ":" +
+        currentdate.getMinutes() +
+        ":" +
+        currentdate.getSeconds();
+
+    console.log(datetime);
+}
+
+// add callbacks
+document.querySelector("button#add").addEventListener("click", pressButton);
+document.querySelector("button#refresh").addEventListener("click", refreshData);
+
+// start repeating to update
+//setInterval(refreshData, 5000);
