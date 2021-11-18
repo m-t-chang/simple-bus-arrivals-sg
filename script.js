@@ -14,13 +14,34 @@ function busArrivalApiCall(busStopCode) {
 
 // copied from https://stackoverflow.com/questions/36975619/how-to-call-a-rest-web-service-api-from-javascript
 // using Fetch API https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
-const fetchBusArrivals = async (busStopCode) => {
-    const response = await fetch(busArrivalApiCall(busStopCode));
+const fetchBusArrivals = async (card) => {
+    const response = await fetch(busArrivalApiCall(card.busStopCode));
     const myJson = await response.json(); //extract JSON from the http response
     // do something with myJson
-    displayArriavals(myJson);
+    //displayArriavals(myJson);
+
+    // update the card with the returned data
+    for (let service of myJson.services) {
+        if (service.no === card.serviceNo) {
+            // display in mins, rounded down
+            const minsUntilArrival = Math.floor(
+                service.next.duration_ms / 60000 // this should be fetching the time instead
+            );
+
+            card.duration = `${minsUntilArrival} mins`;
+            console.log("mins", minsUntilArrival);
+        }
+    }
+    console.log("end of fetchBusArrivals", myJson);
+    console.log(card);
+
+    // update display
+    // I think this has to go here? because this is an async function
+    displayCards();
 };
 
+/*
+// replaced by new code above
 function displayArriavals(myJson) {
     for (let service of myJson.services) {
         if (service.no === "185") {
@@ -42,13 +63,15 @@ function addTextToWebpage(stopName, serviceNo, mins) {
     document.querySelector(".service-no").innerHTML = serviceNo;
     document.querySelector(".duration").innerHTML = `${mins} mins`;
 }
+*/
 
 class ArrivalCard {
-    constructor(stopName, serviceNo) {
-        this.stopName = stopName;
+    constructor(busStopCode, serviceNo) {
+        this.busStopCode = busStopCode;
+        this.stopName = busStopCode; // placeholder
         this.serviceNo = serviceNo;
         this.duration = null;
-        // this needs to store stopID as well. But I'm not sure what the data will look like yet
+        // this needs to store busStopCode as well. But I'm not sure what the data will look like yet
         // also data updating. The card should probably store the estimated arrival time,
         //      then calculate the duration on a faster refresh (1s? 5s?) than the data update.
     }
@@ -60,8 +83,10 @@ function updateCardStack() {
 }
 
 function updateCard(card) {
-    // placeholder
-    console.log(card);
+    console.log("updating card:", card);
+
+    // use the card's info to call API
+    fetchBusArrivals(card);
 }
 
 //////// test out read JSON file
