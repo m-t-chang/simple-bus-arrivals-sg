@@ -49,37 +49,47 @@ class ArrivalCard {
 
 const cardStack = [new ArrivalCard("Blk 347", "###")];
 
+function updateCardStack() {
+    // for each card, call the api
+    cardStack.map(updateCard);
+}
+
+function updateCardStack(card) {
+    console.log(card);
+}
+
 function displayCards() {
+    // wipe the prev display
+    document.querySelectorAll(".card").forEach((elem) => elem.remove());
+
+    // display all cards
     cardStack.map((card) => {
+        console.log(card);
+
         // create elements
         const divCard = document.createElement("div");
         divCard.className = "card";
 
         const divStopName = document.createElement("div");
-        divStopName.innerHTML = card.stopName;
+        divStopName.innerText = card.stopName;
         divStopName.className = "stop-name";
 
         const divServiceNo = document.createElement("div");
-        divServiceNo.innerHTML = card.serivceNo;
+        divServiceNo.innerText = card.serviceNo;
         divServiceNo.className = "service-no";
 
         const divDuration = document.createElement("div");
-        divDuration.innerHTML = card.duration;
+        divDuration.innerText = card.duration;
         divDuration.className = "duration";
 
         // append
         divCard.append(divStopName, divServiceNo, divDuration);
         document.querySelector("#card-stack").append(divCard);
-
-        console.log(divCard);
     });
 }
 
-fetchBusArrivals(28461);
-
 //////// test out read JSON file
 // second answer from https://stackoverflow.com/questions/19706046/how-to-read-an-external-local-json-file-in-javascript
-
 function readTextFile(file, callback) {
     const rawFile = new XMLHttpRequest();
     rawFile.overrideMimeType("application/json");
@@ -91,9 +101,6 @@ function readTextFile(file, callback) {
     };
     rawFile.send(null);
 }
-
-//usage:
-let busServices;
 
 readTextFile("data/bus-services.json", function (text) {
     const data = JSON.parse(text);
@@ -113,6 +120,7 @@ function addCard(e) {
     // save the selection to data
     const selectedService = document.querySelector("#select-service").value;
     cardStack.push(new ArrivalCard("xxx", selectedService));
+    console.log("undef?", cardStack);
 
     // update display
     displayCards();
@@ -123,6 +131,8 @@ function addCard(e) {
 
 function refreshData() {
     console.log("refresh data placeholder");
+
+    updateCardStack();
 
     var currentdate = new Date();
     var datetime =
@@ -146,16 +156,27 @@ function clearCards() {
     localStorage.clear();
 }
 
-// add callbacks
-document.querySelector("button#add").addEventListener("click", addCard);
-document.querySelector("button#refresh").addEventListener("click", refreshData);
-document
-    .querySelector("button#clear-all")
-    .addEventListener("click", clearCards);
+// define global variables
+let busServices;
 
-// start repeating to update
-//setInterval(refreshData, 5000);
+// on page load:
+window.onload = () => {
+    // add callbacks
+    document.querySelector("button#add").addEventListener("click", addCard);
+    document
+        .querySelector("button#refresh")
+        .addEventListener("click", refreshData);
+    document
+        .querySelector("button#clear-all")
+        .addEventListener("click", clearCards);
 
-// test local storage
-console.log(localStorage);
-localStorage.setItem("test1", "hello");
+    // start repeating to update
+    //setInterval(refreshData, 5000);
+
+    // test local storage
+    console.log(localStorage);
+    localStorage.setItem("test1", "hello");
+
+    // get data [OLD CODE]
+    //fetchBusArrivals(28461);
+};
