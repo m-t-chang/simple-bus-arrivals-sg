@@ -30,3 +30,7 @@ body {
     justify-content: center;
     row-gap: 1em;
 }
+
+#add-new {
+    line-height: 2em;
+}
