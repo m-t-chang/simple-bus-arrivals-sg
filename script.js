@@ -1,5 +1,9 @@
 "use strict";
 
+////////////////////////////////////////////////////////////////////
+// model methods
+////////////////////////////////////////////////////////////////////
+
 // wrapper function to generate the URL for API call by inserting the parameter
 // into the URL string
 // API is LTA DataMall
@@ -55,9 +59,42 @@ function updateCardStack() {
     cardStack.map(updateCard);
 }
 
-function updateCardStack(card) {
+function updateCard(card) {
+    // placeholder
     console.log(card);
 }
+
+//////// test out read JSON file
+// second answer from https://stackoverflow.com/questions/19706046/how-to-read-an-external-local-json-file-in-javascript
+function readTextFile(file, callback) {
+    const rawFile = new XMLHttpRequest();
+    rawFile.overrideMimeType("application/json");
+    rawFile.open("GET", file, true);
+    rawFile.onreadystatechange = function () {
+        if (rawFile.readyState === 4 && rawFile.status == "200") {
+            callback(rawFile.responseText);
+        }
+    };
+    rawFile.send(null);
+}
+
+readTextFile("data/bus-services.json", function (text) {
+    const data = JSON.parse(text);
+    console.log(data);
+
+    busServices = data;
+
+    // add options to dropdown
+    busServices.map((elem) => {
+        const opt = document.createElement("option");
+        opt.innerText = elem.ServiceNo;
+        document.querySelector("#select-service").append(opt);
+    });
+});
+
+////////////////////////////////////////////////////////////////////
+// view methods
+////////////////////////////////////////////////////////////////////
 
 function displayCards() {
     // wipe the prev display
@@ -89,33 +126,9 @@ function displayCards() {
     });
 }
 
-//////// test out read JSON file
-// second answer from https://stackoverflow.com/questions/19706046/how-to-read-an-external-local-json-file-in-javascript
-function readTextFile(file, callback) {
-    const rawFile = new XMLHttpRequest();
-    rawFile.overrideMimeType("application/json");
-    rawFile.open("GET", file, true);
-    rawFile.onreadystatechange = function () {
-        if (rawFile.readyState === 4 && rawFile.status == "200") {
-            callback(rawFile.responseText);
-        }
-    };
-    rawFile.send(null);
-}
-
-readTextFile("data/bus-services.json", function (text) {
-    const data = JSON.parse(text);
-    console.log(data);
-
-    busServices = data;
-
-    // add options to dropdown
-    busServices.map((elem) => {
-        const opt = document.createElement("option");
-        opt.innerText = elem.ServiceNo;
-        document.querySelector("#select-service").append(opt);
-    });
-});
+////////////////////////////////////////////////////////////////////
+// controller methods
+////////////////////////////////////////////////////////////////////
 
 function addCard(e) {
     // save the selection to data
@@ -156,6 +169,10 @@ function refreshData() {
 function clearCards() {
     localStorage.clear();
 }
+
+////////////////////////////////////////////////////////////////////
+// main code
+////////////////////////////////////////////////////////////////////
 
 // define global variables
 let busServices;
