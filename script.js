@@ -110,6 +110,24 @@ readTextFile("data/bus-services.json", function (text) {
 function pressButton(e) {
     console.log(document.querySelector("#select-service").value);
     addCardsToWebpage();
+
+    // try putting it in local storage
+    /*
+    console.log(localStorage);
+    localStorage.setItem("testStops", []);
+    if (localStorage.getItem("testStops") === null) {
+        localStorage.setItem("testStops", []);
+    }
+
+    const storedArray = localStorage.getItem("testStops");
+    console.log("stored Array", storedArray);
+    storedArray.push(document.querySelector("#select-service").value);
+    localStorage.setItem("testStops", storedArray);*/
+    const objToStore = JSON.stringify([
+        "hello",
+        document.querySelector("#select-service").value,
+    ]);
+    localStorage.setItem("testStops", objToStore);
 }
 
 function refreshData() {
@@ -133,9 +151,20 @@ function refreshData() {
     console.log(datetime);
 }
 
+function clearCards() {
+    localStorage.clear();
+}
+
 // add callbacks
 document.querySelector("button#add").addEventListener("click", pressButton);
 document.querySelector("button#refresh").addEventListener("click", refreshData);
+document
+    .querySelector("button#clear-all")
+    .addEventListener("click", clearCards);
 
 // start repeating to update
 //setInterval(refreshData, 5000);
+
+// test local storage
+console.log(localStorage);
+localStorage.setItem("test1", "hello");
