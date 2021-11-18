@@ -44,10 +44,11 @@ class ArrivalCard {
         this.stopName = stopName;
         this.serviceNo = serviceNo;
         this.duration = null;
+        // this needs to store stopID as well. But I'm not sure what the data will look like yet
+        // also data updating. The card should probably store the estimated arrival time,
+        //      then calculate the duration on a faster refresh (1s? 5s?) than the data update.
     }
 }
-
-const cardStack = [new ArrivalCard("Blk 347", "###")];
 
 function updateCardStack() {
     // for each card, call the api
@@ -118,9 +119,9 @@ readTextFile("data/bus-services.json", function (text) {
 
 function addCard(e) {
     // save the selection to data
+    const selectedStop = document.querySelector("#select-stop").value; // for now, store the stop ID in card.stopName
     const selectedService = document.querySelector("#select-service").value;
-    cardStack.push(new ArrivalCard("xxx", selectedService));
-    console.log("undef?", cardStack);
+    cardStack.push(new ArrivalCard(selectedStop, selectedService));
 
     // update display
     displayCards();
@@ -158,6 +159,7 @@ function clearCards() {
 
 // define global variables
 let busServices;
+const cardStack = [new ArrivalCard("Blk 347", "###")];
 
 // on page load:
 window.onload = () => {
