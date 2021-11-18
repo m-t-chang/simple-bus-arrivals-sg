@@ -39,16 +39,18 @@ function addTextToWebpage(stopName, serviceNo, mins) {
     document.querySelector(".duration").innerHTML = `${mins} mins`;
 }
 
-const arrivalCards = [
-    {
-        stopName: "Blk 347",
-        serivceNo: "xxx",
-        duration: "x min",
-    },
-];
+class ArrivalCard {
+    constructor(stopName, serviceNo) {
+        this.stopName = stopName;
+        this.serviceNo = serviceNo;
+        this.duration = null;
+    }
+}
 
-function addCardsToWebpage() {
-    arrivalCards.map((card) => {
+const cardStack = [new ArrivalCard("Blk 347", "###")];
+
+function displayCards() {
+    cardStack.map((card) => {
         // create elements
         const divCard = document.createElement("div");
         divCard.className = "card";
@@ -107,27 +109,16 @@ readTextFile("data/bus-services.json", function (text) {
     });
 });
 
-function pressButton(e) {
-    console.log(document.querySelector("#select-service").value);
-    addCardsToWebpage();
+function addCard(e) {
+    // save the selection to data
+    const selectedService = document.querySelector("#select-service").value;
+    cardStack.push(new ArrivalCard("xxx", selectedService));
 
-    // try putting it in local storage
-    /*
-    console.log(localStorage);
-    localStorage.setItem("testStops", []);
-    if (localStorage.getItem("testStops") === null) {
-        localStorage.setItem("testStops", []);
-    }
+    // update display
+    displayCards();
 
-    const storedArray = localStorage.getItem("testStops");
-    console.log("stored Array", storedArray);
-    storedArray.push(document.querySelector("#select-service").value);
-    localStorage.setItem("testStops", storedArray);*/
-    const objToStore = JSON.stringify([
-        "hello",
-        document.querySelector("#select-service").value,
-    ]);
-    localStorage.setItem("testStops", objToStore);
+    // put into local storage
+    localStorage.setItem("cardStack", JSON.stringify(cardStack));
 }
 
 function refreshData() {
@@ -156,7 +147,7 @@ function clearCards() {
 }
 
 // add callbacks
-document.querySelector("button#add").addEventListener("click", pressButton);
+document.querySelector("button#add").addEventListener("click", addCard);
 document.querySelector("button#refresh").addEventListener("click", refreshData);
 document
     .querySelector("button#clear-all")
