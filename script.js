@@ -123,7 +123,7 @@ readTextFile("data/bus-services.json", function (text) {
 
 function displayCards() {
     // wipe the prev display
-    document.querySelectorAll(".card").forEach((elem) => elem.remove());
+    document.querySelector("#card-stack").textContent = "";
 
     // display all cards
     cardStack.map((card) => {

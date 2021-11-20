@@ -21,7 +21,7 @@ h1 {
     padding: 0.2em 0;
     border: 1px solid lightgrey;
     border-radius: 5px;
-    width: 80%; /* going for Transit look */
+    width: 90%; /* going for Transit look */
     background-color: white;
 
     /* box-shadows courtesy of https://codepen.io/sdthornton/pen/wBZdXq */
@@ -39,8 +39,14 @@ h1 {
 }
 
 #add-new {
+    font-size: medium;
+    margin-top: 0.5em;
+    padding-bottom: 2em;
     line-height: 2em;
     text-align: center;
+    border: 2px dashed lightgrey;
+    box-shadow: none;
+    background-color: transparent;
 }
 
 /* ==================================================================
