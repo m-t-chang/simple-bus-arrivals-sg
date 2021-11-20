@@ -7,16 +7,21 @@ body {
     background-color: azure;
 }
 
+h1 {
+    margin: auto;
+    text-align: center;
+}
+
 .card {
     font-size: 64px;
     text-align: center;
     line-height: 1.2;
 
     margin: auto;
-    padding: 0.3em 0.5em;
+    padding: 0.2em 0;
     border: 1px solid lightgrey;
     border-radius: 5px;
-    width: max-content;
+    width: 80%; /* going for Transit look */
     background-color: white;
 
     /* box-shadows courtesy of https://codepen.io/sdthornton/pen/wBZdXq */
@@ -25,12 +30,15 @@ body {
 
 #card-stack {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;
-    row-gap: 1em;
+    flex-direction: column;
+    justify-content: stretch;
+    row-gap: 0.5em;
+
+    margin: auto;
+    max-width: 500px;
 }
 
 #add-new {
     line-height: 2em;
+    text-align: center;
 }
