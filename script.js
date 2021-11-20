@@ -229,3 +229,13 @@ window.onload = () => {
     // update display
     displayCards();
 };
+
+////////////////////////////////////////////////////////////////////
+// loading overlay
+////////////////////////////////////////////////////////////////////
+
+// hide the loading screen after a certain amount of time
+const loadingOverlay = document.querySelector("div.loading");
+window.setTimeout(() => {
+    loadingOverlay.classList.add("hidden");
+}, 1200);
