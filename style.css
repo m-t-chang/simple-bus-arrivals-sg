@@ -47,6 +47,7 @@ h1 {
     border: 2px dashed lightgrey;
     box-shadow: none;
     background-color: transparent;
+    max-width: 450px;
 }
 
 /* ==================================================================
