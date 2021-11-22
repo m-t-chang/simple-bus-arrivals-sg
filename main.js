@@ -26,7 +26,7 @@ const fetchArrivalsForCard = async (card) => {
                 service.next.duration_ms / 60000 // this should be fetching the time instead
             );
 
-            card.duration = `${minsUntilArrival} mins`;
+            card.duration = minsUntilArrival;
             //console.log("mins", minsUntilArrival);
         }
     }
@@ -40,12 +40,15 @@ const fetchArrivalsForCard = async (card) => {
 class ArrivalCard {
     constructor(busStopCode, serviceNo) {
         this.busStopCode = busStopCode;
-        this.stopName = busStopCode; // placeholder
         this.serviceNo = serviceNo;
         this.duration = null;
         // this needs to store busStopCode as well. But I'm not sure what the data will look like yet
         // also data updating. The card should probably store the estimated arrival time,
         //      then calculate the duration on a faster refresh (1s? 5s?) than the data update.
+
+        this.stopName = getBusStopDescription(
+            busStops.find((busStop) => busStop.BusStopCode === busStopCode)
+        );
     }
 }
 
@@ -106,20 +109,29 @@ function displayCards() {
         divServiceNo.className = "service-no";
 
         const divDuration = document.createElement("div");
-        divDuration.innerText = card.duration;
+        // for negative duration, set to 0. Following LTA's guidance.
+        divDuration.innerText =
+            (card.duration >= 0 ? card.duration : 0) + " mins";
         divDuration.className = "duration";
 
         // append
-        divCard.append(divStopName, divServiceNo, divDuration);
+        divCard.append(divServiceNo, divStopName, divDuration);
         document.querySelector("#card-stack").append(divCard);
     });
+}
+
+function getBusStopDescription(busStop) {
+    // input a busStop object
+    // return a string
+    //return `${busStop.BusStopCode} - ${busStop.RoadName} - ${busStop.Description}`;
+    return `${busStop.RoadName} - ${busStop.Description}`;
 }
 
 function populateBusStopsMenu(busStopsArray) {
     document.querySelector("#list-stops").textContent = "";
     busStopsArray.forEach((elem) => {
         const opt = document.createElement("option");
-        opt.innerText = `${elem.BusStopCode} - ${elem.RoadName} - ${elem.Description}`;
+        opt.innerText = getBusStopDescription(elem);
         opt.value = elem.BusStopCode;
         document.querySelector("#list-stops").append(opt);
     });
@@ -175,6 +187,8 @@ function refreshData() {
 
 function clearCards() {
     localStorage.clear();
+    cardStack.length = 0;
+    displayCards();
 }
 
 function updateStopsForService(e) {
