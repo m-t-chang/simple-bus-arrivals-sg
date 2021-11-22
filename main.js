@@ -117,12 +117,7 @@ readTextFile("data/bus-reference-data.json", function (text) {
         opt.innerText = elem.ServiceNo;
         document.querySelector("#list-services").append(opt);
     });
-    busStops.forEach((elem) => {
-        const opt = document.createElement("option");
-        opt.innerText = `${elem.BusStopCode} - ${elem.RoadName} - ${elem.Description}`;
-        opt.value = elem.BusStopCode;
-        document.querySelector("#list-stops").append(opt);
-    });
+    populateBusStopsMenu(busStops);
 });
 
 ////////////////////////////////////////////////////////////////////
@@ -156,6 +151,16 @@ function displayCards() {
         // append
         divCard.append(divStopName, divServiceNo, divDuration);
         document.querySelector("#card-stack").append(divCard);
+    });
+}
+
+function populateBusStopsMenu(busStopsArray) {
+    document.querySelector("#list-stops").textContent = "";
+    busStopsArray.forEach((elem) => {
+        const opt = document.createElement("option");
+        opt.innerText = `${elem.BusStopCode} - ${elem.RoadName} - ${elem.Description}`;
+        opt.value = elem.BusStopCode;
+        document.querySelector("#list-stops").append(opt);
     });
 }
 
@@ -203,6 +208,29 @@ function clearCards() {
     localStorage.clear();
 }
 
+function updateStopsForService(e) {
+    //console.log("updating bus stops for ", e.target.value);
+
+    // use reduce to get an array of busStopCodes, instead of filter which gives
+    // an array of BusStop objects
+    const stopCodesOnRoute = busRoutes.reduce((prev, elem) => {
+        if (elem.ServiceNo === e.target.value) {
+            prev.push(elem.BusStopCode);
+        }
+        return prev;
+    }, []);
+    //console.log(stopCodesOnRoute);
+
+    // use the array of BusStopCodes to filter the array of BusStops
+    // use map, to retain the original order of the route
+    const stopsOnRoute = stopCodesOnRoute.map((code) =>
+        busStops.find((busStop) => busStop.BusStopCode === code)
+    );
+    //console.log("stops on route", stopsOnRoute);
+
+    populateBusStopsMenu(stopsOnRoute);
+}
+
 ////////////////////////////////////////////////////////////////////
 // main code
 ////////////////////////////////////////////////////////////////////
@@ -229,6 +257,9 @@ window.onload = () => {
     document
         .querySelector("button#clear-all")
         .addEventListener("click", clearCards);
+    document
+        .querySelector("#select-service")
+        .addEventListener("change", updateStopsForService);
 
     // start repeating to update
     //setInterval(refreshData, 5000);
