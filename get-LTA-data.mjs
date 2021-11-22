@@ -25,6 +25,7 @@ import fetch from "node-fetch";
 import * as fs from "fs"; // for writing the .json file
 
 // define variables
+// NOTE: the order of datasets is hard-coded! Don't change it.
 const datasetList = [
     {
         name: "Bus Services",

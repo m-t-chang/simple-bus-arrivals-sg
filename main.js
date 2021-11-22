@@ -89,7 +89,7 @@ function updateCard(card) {
     fetchBusArrivals(card);
 }
 
-//////// test out read JSON file
+//////// read in JSON file with bus reference data
 // second answer from https://stackoverflow.com/questions/19706046/how-to-read-an-external-local-json-file-in-javascript
 function readTextFile(file, callback) {
     const rawFile = new XMLHttpRequest();
@@ -108,6 +108,8 @@ readTextFile("data/bus-reference-data.json", function (text) {
     console.log(datasetList);
 
     busServices = datasetList[0].data;
+    busRoutes = datasetList[1].data;
+    busStops = datasetList[2].data;
 
     // add options to dropdown
     busServices.map((elem) => {
@@ -201,6 +203,8 @@ function clearCards() {
 
 // define global variables
 let busServices;
+let busRoutes;
+let busStops;
 
 // load data from local storage, if it exists
 const cardStack = [];
