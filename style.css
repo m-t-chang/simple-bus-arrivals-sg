@@ -5,6 +5,7 @@ button {
 
 body {
     background-color: azure;
+    margin: 0;
 }
 
 h1 {
@@ -13,15 +14,18 @@ h1 {
 }
 
 .card {
-    font-size: 60px;
-    text-align: center;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
     line-height: 1.2;
 
-    margin: auto;
-    padding: 0.2em 0;
+    margin: 3px auto;
+    padding: 12px 14px;
     border: 1px solid lightgrey;
-    border-radius: 5px;
-    width: 100%; /* going for Transit look */
+    border-radius: 10px;
+    width: 90%;
     background-color: white;
 
     /* box-shadows courtesy of https://codepen.io/sdthornton/pen/wBZdXq */
@@ -29,12 +33,13 @@ h1 {
 }
 
 .card-left {
-    display: inline-block;
     text-align: left;
+    flex-grow: 1;
 }
 .card-right {
-    display: inline-block;
-    text-align: right;
+    text-align: center;
+    width: 15%;
+    flex-grow: 0;
 }
 
 .stop-name {
@@ -42,9 +47,11 @@ h1 {
 }
 
 .service-no {
+    font-size: 60px;
 }
 
 .duration {
+    font-size: 60px;
 }
 
 .mins {
@@ -55,15 +62,15 @@ h1 {
     display: flex;
     flex-direction: column;
     justify-content: stretch;
-    row-gap: 0.5em;
+    row-gap: 0;
 
     margin: auto;
     max-width: 500px;
 }
 
 #add-new {
+    display: block;
     font-size: medium;
-    margin-top: 0.5em;
     padding-bottom: 2em;
     line-height: 2em;
     text-align: center;
