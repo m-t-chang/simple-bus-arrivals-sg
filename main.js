@@ -14,11 +14,9 @@ function busArrivalApiCall(busStopCode) {
 
 // copied from https://stackoverflow.com/questions/36975619/how-to-call-a-rest-web-service-api-from-javascript
 // using Fetch API https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
-const fetchBusArrivals = async (card) => {
+const fetchArrivalsForCard = async (card) => {
     const response = await fetch(busArrivalApiCall(card.busStopCode));
     const myJson = await response.json(); //extract JSON from the http response
-    // do something with myJson
-    //displayArriavals(myJson);
 
     // update the card with the returned data
     for (let service of myJson.services) {
@@ -29,41 +27,15 @@ const fetchBusArrivals = async (card) => {
             );
 
             card.duration = `${minsUntilArrival} mins`;
-            console.log("mins", minsUntilArrival);
+            //console.log("mins", minsUntilArrival);
         }
     }
-    console.log("end of fetchBusArrivals", myJson);
-    console.log(card);
+    //console.log("end of fetchBusArrivals", myJson);
+    //console.log(card);
 
-    // update display
-    // I think this has to go here? because this is an async function
+    // update display after updating data
     displayCards();
 };
-
-/*
-// replaced by new code above
-function displayArriavals(myJson) {
-    for (let service of myJson.services) {
-        if (service.no === "185") {
-            // display in mins, rounded down
-            const minsUntilArrival = Math.floor(
-                service.next.duration_ms / 60000
-            );
-
-            addTextToWebpage("Blk 347", service.no, minsUntilArrival);
-        }
-    }
-}
-
-function addTextToWebpage(stopName, serviceNo, mins) {
-    // const newItem = document.createElement("li");
-    // newItem.innerText = str;
-    // messageList.appendChild(newItem);
-    document.querySelector(".stop-name").innerHTML = stopName;
-    document.querySelector(".service-no").innerHTML = serviceNo;
-    document.querySelector(".duration").innerHTML = `${mins} mins`;
-}
-*/
 
 class ArrivalCard {
     constructor(busStopCode, serviceNo) {
@@ -79,14 +51,7 @@ class ArrivalCard {
 
 function updateCardStack() {
     // for each card, call the api
-    cardStack.map(updateCard);
-}
-
-function updateCard(card) {
-    console.log("updating card:", card);
-
-    // use the card's info to call API
-    fetchBusArrivals(card);
+    cardStack.map(fetchArrivalsForCard);
 }
 
 //////// read in JSON file with bus reference data
@@ -105,7 +70,7 @@ function readTextFile(file, callback) {
 
 readTextFile("data/bus-reference-data.json", function (text) {
     const datasetList = JSON.parse(text);
-    console.log(datasetList);
+    //console.log(datasetList);
 
     busServices = datasetList[0].data;
     busRoutes = datasetList[1].data;
@@ -126,7 +91,7 @@ function displayCards() {
 
     // display all cards
     cardStack.map((card) => {
-        console.log(card);
+        //console.log(card);
 
         // create elements
         const divCard = document.createElement("div");
@@ -189,13 +154,9 @@ function addCard(e) {
 }
 
 function refreshData() {
-    console.log("refresh data placeholder");
-
-    updateCardStack();
-
     var currentdate = new Date();
     var datetime =
-        "Last Sync: " +
+        "Refreshing data: " +
         currentdate.getDate() +
         "/" +
         (currentdate.getMonth() + 1) +
@@ -207,8 +168,9 @@ function refreshData() {
         currentdate.getMinutes() +
         ":" +
         currentdate.getSeconds();
-
     console.log(datetime);
+
+    updateCardStack();
 }
 
 function clearCards() {
@@ -239,7 +201,7 @@ function updateStopsForService(e) {
 }
 
 function updateServicesForStop(e) {
-    console.log("updating bus services for ", e.target.value);
+    //console.log("updating bus services for ", e.target.value);
 
     // use reduce to get an array of busServiceNo, instead of filter which gives
     // an array of BusRoute objects
@@ -271,7 +233,7 @@ let busStops;
 
 // load data from local storage, if it exists
 const cardStack = [];
-console.log("localstorage", localStorage.getItem("cardStack"));
+//console.log("localstorage", localStorage.getItem("cardStack"));
 if (localStorage.getItem("cardStack") !== null) {
     cardStack.push(...JSON.parse(localStorage.getItem("cardStack")));
 }
@@ -297,15 +259,15 @@ window.onload = () => {
         .querySelector("#select-stop")
         .addEventListener("change", updateServicesForStop);
 
-    // start repeating to update
-    //setInterval(refreshData, 5000);
-
     // update display - load cards
     //displayCards();
 
     // refresh data
     // this calls displayCards after data is loaded
     refreshData();
+
+    // start repeating to update
+    setInterval(refreshData, 5000);
 };
 
 ////////////////////////////////////////////////////////////////////
