@@ -164,6 +164,7 @@ function populateBusServicesMenu(busServicesArray) {
     // input is an array of Bus Service objects, such as "busServices"
     document.querySelector("#list-services").textContent = "";
     busServicesArray.forEach((elem) => {
+        if (elem.Direction !== 1) return; // only display Direction 1 routes, to avoid duplicates
         const opt = document.createElement("option");
         opt.innerText = elem.ServiceNo;
         document.querySelector("#list-services").append(opt);
@@ -254,7 +255,7 @@ function updateServicesForStop(e) {
     const servicesAtStop = busServices.filter((service) =>
         serviceNosAtStop.includes(service.ServiceNo)
     );
-    console.log("services at stop", servicesAtStop);
+    //console.log("services at stop", servicesAtStop);
 
     populateBusServicesMenu(servicesAtStop);
 }
