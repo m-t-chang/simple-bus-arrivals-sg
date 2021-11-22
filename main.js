@@ -103,11 +103,11 @@ function readTextFile(file, callback) {
     rawFile.send(null);
 }
 
-readTextFile("data/bus-services.json", function (text) {
-    const data = JSON.parse(text);
-    console.log(data);
+readTextFile("data/bus-reference-data.json", function (text) {
+    const datasetList = JSON.parse(text);
+    console.log(datasetList);
 
-    busServices = data;
+    busServices = datasetList[0].data;
 
     // add options to dropdown
     busServices.map((elem) => {

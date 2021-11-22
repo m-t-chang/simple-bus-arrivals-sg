@@ -29,22 +29,20 @@ const datasetList = [
     {
         name: "Bus Services",
         endpoint: "http://datamall2.mytransport.sg/ltaodataservice/BusServices",
-        outputFileName: "data/bus-services.json",
         data: [],
     },
     {
         name: "Bus Routes",
         endpoint: "http://datamall2.mytransport.sg/ltaodataservice/BusRoutes",
-        outputFileName: "data/bus-routes.json",
         data: [],
     },
     {
         name: "Bus Stops",
         endpoint: "http://datamall2.mytransport.sg/ltaodataservice/BusStops",
-        outputFileName: "data/bus-stops.json",
         data: [],
     },
 ];
+const outputFileName = "data/bus-reference-data.json";
 
 ////////////////////////////////////////////////////////////
 // Get data from API
@@ -54,17 +52,20 @@ Relevant notes on LTA's API:
 - you can only get 500 rows at a time
 - expected response is an object with 2 keys, metainfo and value. 
 - "value" contains an array of objects
+
+Code makes API calls synchronously, for simplicity. Speed is not an issue
+here, since this code is only run once.
 */
 
 // loop through the 3 data sets to retrieve, transform, and save the data
-datasetList.map(async (dataset) => {
+for (const dataset of datasetList) {
     // get the data, 500 rows at a time
     let rowsRemainingFlag = true;
     let skipRows = 0;
     while (rowsRemainingFlag) {
         // DEBUG
-        console.log(dataset.name);
-        console.log("skipRows:", skipRows);
+        //console.log(dataset.name);
+        //console.log("skipRows:", skipRows);
 
         // call API
         const response = await fetch(dataset.endpoint + `?$skip=${skipRows}`, {
@@ -87,20 +88,12 @@ datasetList.map(async (dataset) => {
             skipRows += 500;
         }
     }
+}
 
-    // test code
-    //console.log(typeof dataJson);
-    //console.log(dataJson.value[0]);
-
-    // save the file
-    fs.writeFile(
-        dataset.outputFileName,
-        JSON.stringify(dataset.data),
-        (err) => {
-            if (err) {
-                throw err;
-            }
-            console.log("JSON data is saved.");
-        }
-    );
+// save the data into one JSON file
+fs.writeFile(outputFileName, JSON.stringify(datasetList), (err) => {
+    if (err) {
+        throw err;
+    }
+    console.log("JSON data is saved.");
 });
