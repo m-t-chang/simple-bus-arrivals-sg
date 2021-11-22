@@ -181,8 +181,8 @@ function addCard(e) {
     const selectedService = document.querySelector("#select-service").value;
     cardStack.push(new ArrivalCard(selectedStop, selectedService));
 
-    // update display
-    displayCards();
+    // update data and draw cards
+    refreshData();
 
     // put into local storage
     localStorage.setItem("cardStack", JSON.stringify(cardStack));
@@ -300,11 +300,12 @@ window.onload = () => {
     // start repeating to update
     //setInterval(refreshData, 5000);
 
-    // get data [OLD CODE]
-    //fetchBusArrivals(28461);
+    // update display - load cards
+    //displayCards();
 
-    // update display
-    displayCards();
+    // refresh data
+    // this calls displayCards after data is loaded
+    refreshData();
 };
 
 ////////////////////////////////////////////////////////////////////
@@ -315,4 +316,4 @@ window.onload = () => {
 const loadingOverlay = document.querySelector("div.loading");
 window.setTimeout(() => {
     loadingOverlay.classList.add("hidden");
-}, 1200);
+}, 800);
