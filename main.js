@@ -112,11 +112,7 @@ readTextFile("data/bus-reference-data.json", function (text) {
     busStops = datasetList[2].data;
 
     // add options to dropdown
-    busServices.forEach((elem) => {
-        const opt = document.createElement("option");
-        opt.innerText = elem.ServiceNo;
-        document.querySelector("#list-services").append(opt);
-    });
+    populateBusServicesMenu(busServices);
     populateBusStopsMenu(busStops);
 });
 
@@ -161,6 +157,16 @@ function populateBusStopsMenu(busStopsArray) {
         opt.innerText = `${elem.BusStopCode} - ${elem.RoadName} - ${elem.Description}`;
         opt.value = elem.BusStopCode;
         document.querySelector("#list-stops").append(opt);
+    });
+}
+
+function populateBusServicesMenu(busServicesArray) {
+    // input is an array of Bus Service objects, such as "busServices"
+    document.querySelector("#list-services").textContent = "";
+    busServicesArray.forEach((elem) => {
+        const opt = document.createElement("option");
+        opt.innerText = elem.ServiceNo;
+        document.querySelector("#list-services").append(opt);
     });
 }
 
@@ -212,7 +218,7 @@ function updateStopsForService(e) {
     //console.log("updating bus stops for ", e.target.value);
 
     // use reduce to get an array of busStopCodes, instead of filter which gives
-    // an array of BusStop objects
+    // an array of BusRoute objects
     const stopCodesOnRoute = busRoutes.reduce((prev, elem) => {
         if (elem.ServiceNo === e.target.value) {
             prev.push(elem.BusStopCode);
@@ -229,6 +235,28 @@ function updateStopsForService(e) {
     //console.log("stops on route", stopsOnRoute);
 
     populateBusStopsMenu(stopsOnRoute);
+}
+
+function updateServicesForStop(e) {
+    console.log("updating bus services for ", e.target.value);
+
+    // use reduce to get an array of busServiceNo, instead of filter which gives
+    // an array of BusRoute objects
+    const serviceNosAtStop = busRoutes.reduce((prev, elem) => {
+        if (elem.BusStopCode === e.target.value) {
+            prev.push(elem.ServiceNo);
+        }
+        return prev;
+    }, []);
+    //console.log(serviceNosAtStop);
+
+    // turn the array of serviceNos into BusService objects
+    const servicesAtStop = busServices.filter((service) =>
+        serviceNosAtStop.includes(service.ServiceNo)
+    );
+    console.log("services at stop", servicesAtStop);
+
+    populateBusServicesMenu(servicesAtStop);
 }
 
 ////////////////////////////////////////////////////////////////////
@@ -257,9 +285,16 @@ window.onload = () => {
     document
         .querySelector("button#clear-all")
         .addEventListener("click", clearCards);
+
+    // note: this callback is on change, not input.
+    // Input would be faster, maybe, but more resource intensive?
+    // https://www.w3schools.com/jsref/obj_event.asp
     document
         .querySelector("#select-service")
         .addEventListener("change", updateStopsForService);
+    document
+        .querySelector("#select-stop")
+        .addEventListener("change", updateServicesForStop);
 
     // start repeating to update
     //setInterval(refreshData, 5000);
