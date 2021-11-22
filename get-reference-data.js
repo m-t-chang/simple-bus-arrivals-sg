@@ -2,6 +2,8 @@
 
 /*
 
+THIS CODE IS REPLACED BY "NODE-FETCH-TEST.MJS"
+
 Purpose of this code is to download reference data and save it locally.
 
 Data to download:
