@@ -112,10 +112,16 @@ readTextFile("data/bus-reference-data.json", function (text) {
     busStops = datasetList[2].data;
 
     // add options to dropdown
-    busServices.map((elem) => {
+    busServices.forEach((elem) => {
         const opt = document.createElement("option");
         opt.innerText = elem.ServiceNo;
-        document.querySelector("#select-service").append(opt);
+        document.querySelector("#list-services").append(opt);
+    });
+    busStops.forEach((elem) => {
+        const opt = document.createElement("option");
+        opt.innerText = `${elem.BusStopCode} - ${elem.RoadName} - ${elem.Description}`;
+        opt.value = elem.BusStopCode;
+        document.querySelector("#list-stops").append(opt);
     });
 });
 

@@ -34,12 +34,17 @@
 
             <div>
                 <label for="select-stop">Bus Stop Code:</label>
-                <input id="select-stop" name="busStop" />
+                <input list="list-stops" id="select-stop" name="busStop" />
+                <datalist id="list-stops"></datalist>
             </div>
             <div>
                 <label for="select-service">Bus Service No.:</label>
-                <input id="select-service" name="busService" />
-                <!-- <select id="select-service" name="busService"></select> -->
+                <input
+                    list="list-services"
+                    id="select-service"
+                    name="busService"
+                />
+                <datalist id="list-services"></datalist>
             </div>
 
             <button id="add">Add Stop</button>
