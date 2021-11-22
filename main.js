@@ -100,6 +100,12 @@ function displayCards() {
         const divCard = document.createElement("div");
         divCard.className = "card";
 
+        const divCardLeft = document.createElement("div");
+        divCardLeft.className = "card-left";
+
+        const divCardRight = document.createElement("div");
+        divCardRight.className = "card-right";
+
         const divStopName = document.createElement("div");
         divStopName.innerText = card.stopName;
         divStopName.className = "stop-name";
@@ -110,12 +116,17 @@ function displayCards() {
 
         const divDuration = document.createElement("div");
         // for negative duration, set to 0. Following LTA's guidance.
-        divDuration.innerText =
-            (card.duration >= 0 ? card.duration : 0) + " mins";
+        divDuration.innerText = card.duration >= 0 ? card.duration : 0;
         divDuration.className = "duration";
 
+        const divMins = document.createElement("div");
+        divMins.innerText = "mins";
+        divMins.className = "mins";
+
         // append
-        divCard.append(divServiceNo, divStopName, divDuration);
+        divCardLeft.append(divServiceNo, divStopName);
+        divCardRight.append(divDuration, divMins);
+        divCard.append(divCardLeft, divCardRight);
         document.querySelector("#card-stack").append(divCard);
     });
 }
@@ -273,15 +284,13 @@ window.onload = () => {
         .querySelector("#select-stop")
         .addEventListener("change", updateServicesForStop);
 
-    // update display - load cards
-    //displayCards();
-
     // refresh data
     // this calls displayCards after data is loaded
     refreshData();
 
     // start repeating to update
-    setInterval(refreshData, 5000);
+    //setInterval(refreshData, 5000);
+    // DEBUG: pausing the refresh so i can inspect elements
 };
 
 ////////////////////////////////////////////////////////////////////
