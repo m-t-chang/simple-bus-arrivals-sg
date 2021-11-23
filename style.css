@@ -13,6 +13,10 @@ h1 {
     text-align: center;
 }
 
+h2 {
+    margin: 0;
+}
+
 .card {
     display: flex;
     flex-flow: row nowrap;
@@ -70,18 +74,19 @@ h1 {
 
 #add-new {
     display: block;
-    font-size: medium;
-    padding-bottom: 2em;
-    line-height: 2em;
+    font-size: 16px;
+    padding-bottom: 10px;
     text-align: center;
     border: 2px dashed lightgrey;
     box-shadow: none;
     background-color: transparent;
     max-width: 450px;
+    line-height: 1.8;
 }
 
-#toggle-lang {
+footer {
     margin: auto;
+    text-align: center;
     display: block;
 }
 
