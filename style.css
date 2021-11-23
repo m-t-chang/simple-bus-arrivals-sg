@@ -48,16 +48,15 @@ h2 {
     flex-grow: 0;
 }
 
-.stop-name {
+.stop-description,
+.stop-road {
     font-size: 20px;
 }
 
-.service-no {
-    font-size: 60px;
-}
-
+.service-no,
 .duration {
-    font-size: 60px;
+    font-size: 64px;
+    font-weight: bold;
 }
 
 .mins {
