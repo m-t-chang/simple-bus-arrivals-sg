@@ -18,13 +18,6 @@ h2 {
 }
 
 .card {
-    display: flex;
-    flex-flow: row nowrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    line-height: 1.2;
-
     margin: 3px auto;
     padding: 12px 14px;
     border: 1px solid lightgrey;
@@ -34,6 +27,15 @@ h2 {
 
     /* box-shadows courtesy of https://codepen.io/sdthornton/pen/wBZdXq */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.card-top {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.2;
 }
 
 .card-left {
@@ -62,6 +64,15 @@ h2 {
     font-size: 20px;
 }
 
+.card-bottom {
+    visibility: hidden;
+    opacity: 0;
+    height: 0px;
+    transition: 0.5s ease;
+    text-align: center;
+    overflow: hidden;
+}
+
 #card-stack {
     display: flex;
     flex-direction: column;
@@ -82,6 +93,13 @@ h2 {
     background-color: transparent;
     max-width: 450px;
     line-height: 1.8;
+}
+
+.expanded-card {
+    visibility: visible;
+    opacity: 1;
+    height: 200px;
+    margin-top: 32px;
 }
 
 footer {

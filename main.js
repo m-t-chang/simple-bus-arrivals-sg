@@ -28,6 +28,8 @@ const fetchArrivalsForCard = async (card) => {
 
             card.duration = minsUntilArrival;
             //console.log("mins", minsUntilArrival);
+
+            card.arrivalObject = service;
         }
     }
     //console.log("end of fetchBusArrivals", myJson);
@@ -42,6 +44,7 @@ class ArrivalCard {
         this.busStopCode = busStopCode;
         this.serviceNo = serviceNo;
         this.duration = null;
+        this.arrivalObject = null;
         // this needs to store busStopCode as well. But I'm not sure what the data will look like yet
         // also data updating. The card should probably store the estimated arrival time,
         //      then calculate the duration on a faster refresh (1s? 5s?) than the data update.
@@ -112,7 +115,9 @@ function displayCards() {
         divCard.querySelector(".service-no").innerText = card.serviceNo;
         divCard.querySelector(".duration").innerText =
             card.duration >= 0 ? card.duration : 0;
-
+        divCard.querySelector(".card-bottom").innerText =
+            JSON.stringify(card.stopObject) +
+            JSON.stringify(card.arrivalObject);
         // append
         document.querySelector("#card-stack").append(divCard);
     });
@@ -262,6 +267,18 @@ function updateServicesForStop(e) {
     populateBusServicesMenu(servicesAtStop);
 }
 
+function expandCard(e) {
+    // guard clause - block out things that shouldn't react to being clicked on
+    if (e.target.id === "card-stack") return;
+    //console.log(e.target);
+
+    // get the card element
+    const card = e.target.closest(".card");
+
+    // assign it the expanded class
+    card.querySelector(".card-bottom").classList.toggle("expanded-card");
+}
+
 ////////////////////////////////////////////////////////////////////
 // main code
 ////////////////////////////////////////////////////////////////////
@@ -297,6 +314,9 @@ window.onload = () => {
     document
         .querySelector("button#toggle-lang")
         .addEventListener("click", toggleLanguage);
+
+    // callback for expanding card
+    document.querySelector("#card-stack").addEventListener("click", expandCard);
 
     // note: this callback is on change, not input.
     // Input would be faster, maybe, but more resource intensive?
