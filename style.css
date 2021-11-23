@@ -129,7 +129,7 @@ span.lang-hide {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(1, 130, 31, 0.98);
+    background-color: LightSeaGreen;
 
     /* center the text */
     display: flex;
