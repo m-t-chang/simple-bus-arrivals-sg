@@ -97,43 +97,23 @@ function displayCards() {
     cardStack.map((card) => {
         //console.log(card);
 
-        // create elements
-        const divCard = document.createElement("div");
-        divCard.className = "card";
-
-        const divCardLeft = document.createElement("div");
-        divCardLeft.className = "card-left";
-
-        const divCardRight = document.createElement("div");
-        divCardRight.className = "card-right";
-
-        const divStopDescription = document.createElement("div");
-        divStopDescription.innerText = card.stopObject.Description;
-        divStopDescription.className = "stop-description";
-
-        const divStopRoad = document.createElement("div");
-        divStopRoad.innerText = card.stopObject.RoadName;
-        divStopRoad.className = "stop-road";
-
-        const divServiceNo = document.createElement("div");
-        divServiceNo.innerText = card.serviceNo;
-        divServiceNo.className = "service-no";
-
-        const divDuration = document.createElement("div");
-        // for negative duration, set to 0. Following LTA's guidance.
-        divDuration.innerText = card.duration >= 0 ? card.duration : 0;
-        divDuration.className = "duration";
-
-        const divMins = document
-            .querySelector("#mins-template")
+        // get card template
+        const divCard = document
+            .querySelector("#card-template")
             .cloneNode(true);
-        divMins.removeAttribute("style");
-        divMins.removeAttribute("id");
+        divCard.removeAttribute("style");
+        divCard.removeAttribute("id");
+
+        // modify elements
+        divCard.querySelector(".stop-description").innerText =
+            card.stopObject.Description;
+        divCard.querySelector(".stop-road").innerText =
+            card.stopObject.RoadName;
+        divCard.querySelector(".service-no").innerText = card.serviceNo;
+        divCard.querySelector(".duration").innerText =
+            card.duration >= 0 ? card.duration : 0;
 
         // append
-        divCardLeft.append(divServiceNo, divStopDescription, divStopRoad);
-        divCardRight.append(divDuration, divMins);
-        divCard.append(divCardLeft, divCardRight);
         document.querySelector("#card-stack").append(divCard);
     });
 }
