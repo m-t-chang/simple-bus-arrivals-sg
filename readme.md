@@ -1,6 +1,11 @@
 # technologies used
 
+-   vanilla JS
+-   vanilla CSS
+
 # the approach taken
+
+-   designed for mobile
 
 # installation instructions
 
