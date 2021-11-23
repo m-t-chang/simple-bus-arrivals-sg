@@ -16,11 +16,19 @@
     <body>
         <!-- loading screen -->
         <div class="loading">
-            <div>Where's the bus?</div>
-            <div>巴士什么时候到？</div>
+            <div>
+                <span lang="en" class="lang-hide">Where's the bus?</span>
+                <span lang="zh">巴士什么时候到？</span>
+            </div>
+            <div></div>
         </div>
 
-        <h1>Bus Arrival Times 巴士</h1>
+        <header>
+            <h1>
+                <span lang="en" class="lang-hide">Bus Arrival Times</span>
+                <span lang="zh">巴士抵达时间</span>
+            </h1>
+        </header>
 
         <div id="card-stack">
             <!-- <div class="card">
@@ -30,15 +38,24 @@
             </div> -->
         </div>
         <div class="card" id="add-new">
-            <h2>Add a new stop</h2>
+            <h2>
+                <span lang="en" class="lang-hide">Add a new stop</span>
+                <span lang="zh">加一个新的巴士站</span>
+            </h2>
 
             <div>
-                <label for="select-stop">Bus Stop Code:</label>
+                <label for="select-stop">
+                    <span lang="en" class="lang-hide">Bus Stop Code:</span>
+                    <span lang="zh">巴士站：</span>
+                </label>
                 <input list="list-stops" id="select-stop" name="busStop" />
                 <datalist id="list-stops"></datalist>
             </div>
             <div>
-                <label for="select-service">Bus Service No.:</label>
+                <label for="select-service">
+                    <span lang="en" class="lang-hide">Bus Service No.:</span>
+                    <span lang="zh">巴士号码：</span>
+                </label>
                 <input
                     list="list-services"
                     id="select-service"
@@ -47,9 +64,28 @@
                 <datalist id="list-services"></datalist>
             </div>
 
-            <button id="add">Add Stop</button>
-            <button id="refresh">Refresh Data</button>
-            <button id="clear-all">Clear</button>
+            <button id="add">
+                <span lang="en" class="lang-hide">Add Stop</span>
+                <span lang="zh">加巴士站</span>
+            </button>
+            <button id="refresh">
+                <span lang="en" class="lang-hide">Refresh Data</span>
+                <span lang="zh">刷新数据</span>
+            </button>
+            <button id="clear-all">
+                <span lang="en" class="lang-hide">Clear</span>
+                <span lang="zh">清晰显示</span>
+            </button>
+        </div>
+
+        <footer>
+            <button id="toggle-lang">Eng / 中文</button>
+        </footer>
+
+        <!-- template for card -->
+        <div class="mins" id="mins-template" style="display: none">
+            <span lang="en" class="lang-hide">mins</span>
+            <span lang="zh">分钟</span>
         </div>
 
         <script type="text/javascript" src="config.js"></script>

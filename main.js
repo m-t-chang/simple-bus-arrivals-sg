@@ -119,9 +119,11 @@ function displayCards() {
         divDuration.innerText = card.duration >= 0 ? card.duration : 0;
         divDuration.className = "duration";
 
-        const divMins = document.createElement("div");
-        divMins.innerText = "mins";
-        divMins.className = "mins";
+        const divMins = document
+            .querySelector("#mins-template")
+            .cloneNode(true);
+        divMins.removeAttribute("style");
+        divMins.removeAttribute("id");
 
         // append
         divCardLeft.append(divServiceNo, divStopName);
@@ -156,6 +158,34 @@ function populateBusServicesMenu(busServicesArray) {
         const opt = document.createElement("option");
         opt.innerText = elem.ServiceNo;
         document.querySelector("#list-services").append(opt);
+    });
+}
+
+function toggleLanguage() {
+    // advance the counter
+    langIndex++;
+    if (langIndex === langOptions.length) langIndex = 0;
+
+    // save it
+    localStorage.setItem("langIndex", langIndex);
+
+    displayProperLanguage();
+}
+
+function displayProperLanguage() {
+    // adjust display - get all spans with language tag
+    document.querySelectorAll("span").forEach((elem) => {
+        // if language tag is not empty...
+        if (elem.lang !== "") {
+            // then compare tag to pref
+            if (elem.lang === langOptions[langIndex]) {
+                // enable
+                elem.classList.remove("lang-hide");
+            } else {
+                // hide
+                elem.classList.add("lang-hide");
+            }
+        }
     });
 }
 
@@ -262,6 +292,12 @@ const cardStack = [];
 if (localStorage.getItem("cardStack") !== null) {
     cardStack.push(...JSON.parse(localStorage.getItem("cardStack")));
 }
+const langOptions = ["en", "zh"];
+let langIndex = 0; // default is english
+if (localStorage.getItem("langIndex") !== null) {
+    langIndex = localStorage.getItem("langIndex");
+}
+displayProperLanguage(); // run this before page loads
 
 // on page load:
 window.onload = () => {
@@ -273,6 +309,9 @@ window.onload = () => {
     document
         .querySelector("button#clear-all")
         .addEventListener("click", clearCards);
+    document
+        .querySelector("button#toggle-lang")
+        .addEventListener("click", toggleLanguage);
 
     // note: this callback is on change, not input.
     // Input would be faster, maybe, but more resource intensive?
@@ -291,14 +330,14 @@ window.onload = () => {
     // start repeating to update
     //setInterval(refreshData, 5000);
     // DEBUG: pausing the refresh so i can inspect elements
+
+    ////////////////////////////////////////////////////////////////////
+    // loading overlay
+    ////////////////////////////////////////////////////////////////////
+
+    // hide the loading screen after a certain amount of time
+    const loadingOverlay = document.querySelector("div.loading");
+    window.setTimeout(() => {
+        loadingOverlay.classList.add("hidden");
+    }, 700);
 };
-
-////////////////////////////////////////////////////////////////////
-// loading overlay
-////////////////////////////////////////////////////////////////////
-
-// hide the loading screen after a certain amount of time
-const loadingOverlay = document.querySelector("div.loading");
-window.setTimeout(() => {
-    loadingOverlay.classList.add("hidden");
-}, 800);

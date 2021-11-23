@@ -38,7 +38,7 @@ h1 {
 }
 .card-right {
     text-align: center;
-    width: 15%;
+    width: 20%;
     flex-grow: 0;
 }
 
@@ -78,6 +78,15 @@ h1 {
     box-shadow: none;
     background-color: transparent;
     max-width: 450px;
+}
+
+#toggle-lang {
+    margin: auto;
+    display: block;
+}
+
+span.lang-hide {
+    display: none;
 }
 
 /* ==================================================================
