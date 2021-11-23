@@ -46,9 +46,10 @@ class ArrivalCard {
         // also data updating. The card should probably store the estimated arrival time,
         //      then calculate the duration on a faster refresh (1s? 5s?) than the data update.
 
-        this.stopName = getBusStopDescription(
-            busStops.find((busStop) => busStop.BusStopCode === busStopCode)
+        this.stopObject = busStops.find(
+            (busStop) => busStop.BusStopCode === busStopCode
         );
+        this.stopName = getBusStopDescription(this.stopObject);
     }
 }
 
@@ -106,9 +107,13 @@ function displayCards() {
         const divCardRight = document.createElement("div");
         divCardRight.className = "card-right";
 
-        const divStopName = document.createElement("div");
-        divStopName.innerText = card.stopName;
-        divStopName.className = "stop-name";
+        const divStopDescription = document.createElement("div");
+        divStopDescription.innerText = card.stopObject.Description;
+        divStopDescription.className = "stop-description";
+
+        const divStopRoad = document.createElement("div");
+        divStopRoad.innerText = card.stopObject.RoadName;
+        divStopRoad.className = "stop-road";
 
         const divServiceNo = document.createElement("div");
         divServiceNo.innerText = card.serviceNo;
@@ -126,7 +131,7 @@ function displayCards() {
         divMins.removeAttribute("id");
 
         // append
-        divCardLeft.append(divServiceNo, divStopName);
+        divCardLeft.append(divServiceNo, divStopDescription, divStopRoad);
         divCardRight.append(divDuration, divMins);
         divCard.append(divCardLeft, divCardRight);
         document.querySelector("#card-stack").append(divCard);
