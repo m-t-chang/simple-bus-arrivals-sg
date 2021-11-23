@@ -4,6 +4,8 @@
 -   vanilla CSS
 -   hosted on VPS
 
+Project history: this was a way to push my limits of vanilla HTML, JS, and CSS knowledge.
+
 # the approach taken
 
 -   designed for mobile
@@ -24,6 +26,7 @@
 -   save your favorites with localStorage
 -   language toggle
 -   can "Save to Desktop" on mobile - shows good icon and name
+-   clicking a card expands it to show more details
 
 -   MVP:
 -   choose bus stop via dropdown
@@ -36,3 +39,4 @@
 
 -   deal with duplicate services, like services in two directions
 -   deal with service outage, or bus not in service at this time
+-   (more noted in Notion)

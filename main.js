@@ -115,9 +115,10 @@ function displayCards() {
         divCard.querySelector(".service-no").innerText = card.serviceNo;
         divCard.querySelector(".duration").innerText =
             card.duration >= 0 ? card.duration : 0;
-        divCard.querySelector(".card-bottom").innerText =
-            JSON.stringify(card.stopObject) +
-            JSON.stringify(card.arrivalObject);
+        divCard.querySelector(".card-bottom").innerText = JSON.stringify(
+            card.arrivalObject
+        );
+
         // append
         document.querySelector("#card-stack").append(divCard);
     });
