@@ -44,6 +44,11 @@ pretty simple
 -   save stops
     -   be able to select bus route and stop, and save it in local storage, so it's kept between browser sessions
 
+# how it works
+
+-   Arrival card class
+-   objects - arrival; bus stop; route
+
 # next steps
 
 -   deal with duplicate services, like services in two directions

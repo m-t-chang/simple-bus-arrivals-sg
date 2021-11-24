@@ -22,11 +22,10 @@ const fetchArrivalsForCard = async (card) => {
     for (let service of myJson.services) {
         if (service.no === card.serviceNo) {
             // display in mins, rounded down
-            const minsUntilArrival = Math.floor(
-                service.next.duration_ms / 60000 // this should be fetching the time instead
-            );
-
-            card.duration = minsUntilArrival;
+            // NOTE: ideally this should be fetching the time instead
+            card.duration = Math.floor(service.next.duration_ms / 60000);
+            card.duration2 = Math.floor(service.next2.duration_ms / 60000);
+            card.duration3 = Math.floor(service.next3.duration_ms / 60000);
             //console.log("mins", minsUntilArrival);
 
             card.arrivalObject = service;
@@ -171,9 +170,9 @@ function displayCards() {
         divCard.querySelector(".service-no").innerText = card.serviceNo;
         divCard.querySelector(".duration").innerText =
             card.duration >= 0 ? card.duration : 0;
-        divCard.querySelector(".card-bottom").innerText = JSON.stringify(
-            card.arrivalObject
-        );
+        divCard.querySelector(".card-bottom").innerText = `Later buses:
+        ${card.duration2} mins
+        ${card.duration3} mins`;
 
         // append
         document.querySelector("#card-stack").append(divCard);
@@ -256,7 +255,7 @@ function closeKebabMenu(e) {
 // controller methods
 ////////////////////////////////////////////////////////////////////
 
-function addCard(e) {
+function addCard() {
     // save the selection to data
     const selectedStop = document.querySelector("#select-stop").value; // for now, store the stop ID in card.stopName
     const selectedService = document.querySelector("#select-service").value;
@@ -264,6 +263,12 @@ function addCard(e) {
 
     // update data and draw cards
     refreshData();
+
+    // reset the inputs
+    document.querySelector("#select-stop").value = "";
+    document.querySelector("#select-service").value = "";
+    populateBusServicesMenu(busServices);
+    populateBusStopsMenu(busStops);
 
     // put into local storage
     localStorage.setItem("cardStack", JSON.stringify(cardStack));
@@ -419,7 +424,6 @@ displayProperLanguage(); // run this before page loads
 // on page load:
 window.onload = () => {
     // add callbacks
-    document.querySelector("button#add").addEventListener("click", addCard);
     document
         .querySelector("button#refresh")
         .addEventListener("click", refreshData);

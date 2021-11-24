@@ -98,6 +98,7 @@ h2 {
     transition: 0.5s ease;
     text-align: center;
     overflow: hidden;
+    font-size: 32px;
 }
 
 #card-stack {
@@ -110,7 +111,7 @@ h2 {
     max-width: 500px;
 }
 
-div#add-new {
+form#add-new {
     display: block;
     font-size: 20px;
     padding-bottom: 10px;
@@ -123,7 +124,7 @@ div#add-new {
     color: var(--grey3);
 }
 
-div#add-new input {
+form#add-new input {
     line-height: 1.4em;
     font-size: 20px;
     width: 100px;
@@ -132,7 +133,7 @@ div#add-new input {
 .expanded-card {
     visibility: visible;
     opacity: 1;
-    height: 200px;
+    height: 150px;
     margin-top: 32px;
 }
 

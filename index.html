@@ -43,7 +43,7 @@
 
         <!-- kebab menu -->
         <div class="kebab-menu kebab-hide material-shadow">
-            Settings
+            <h2>Settings</h2>
             <button id="toggle-lang" class="material-button-medium">Eng / 中文</button>
             <button id="clear-all" class="material-button-medium">
                 <span lang="en" class="lang-hide">Clear All Data</span>
@@ -55,17 +55,17 @@
                     <span lang="zh">刷新数据</span>
                 </button>
             </div>
+            <div>
+                <h2>About this project</h2>
+                Author: m-t-chang<br>
+                <a href="https://github.com/m-t-chang/simple-bus-arrivals-sg">GitHub</a>
+            </div>
         </div>
         <div class="kebab-menu-backdrop"></div>
 
         <div id="card-stack">
-            <!-- <div class="card">
-                <div class="stop-name">Blk 347</div>
-                <div class="service-no"></div>
-                <div class="duration"></div>
-            </div> -->
         </div>
-        <div class="card" id="add-new">
+        <form class="card" id="add-new" action="javascript:addCard()">
             <h2>
                 <span lang="en" class="lang-hide">Add a new stop</span>
                 <span lang="zh">加一个新的巴士站</span>
@@ -96,7 +96,7 @@
                 <span lang="en" class="lang-hide">＋ Add Stop</span>
                 <span lang="zh">＋ 加巴士站</span>
             </button>
-        </div>
+        </form>
 
         <br />
         <br />
@@ -119,10 +119,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-bottom"></div>
+                <div class="card-bottom">
+                </div>
                 <!-- <div class="fold-arrow">^</div> -->
             </div>
         </template>
+
 
         <script type="text/javascript" src="config.js"></script>
         <script src="main.js" type="application/javascript"></script>
