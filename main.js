@@ -347,6 +347,7 @@ if (localStorage.getItem("langIndex") !== null) {
 displayProperLanguage(); // run this before page loads
 
 // get geolocation of user, and sort the stops by distance
+console.log("Fetching geolocation and calculating distances to bus stops...");
 navigator.geolocation.getCurrentPosition(
     (position) => {
         // console.log(
@@ -370,6 +371,8 @@ navigator.geolocation.getCurrentPosition(
 
         // populate the Bus Stop picker
         populateBusStopsMenu(busStops);
+
+        console.log("...finished sorting bus stop options by distance.");
     },
     (error) => {
         console.log("Error when trying to get geolocation:", error);
