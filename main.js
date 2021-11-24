@@ -75,19 +75,6 @@ function readTextFile(file, callback) {
     rawFile.send(null);
 }
 
-readTextFile("data/bus-reference-data.json", function (text) {
-    const datasetList = JSON.parse(text);
-    //console.log(datasetList);
-
-    busServices = datasetList[0].data;
-    busRoutes = datasetList[1].data;
-    busStops = datasetList[2].data;
-
-    // add options to dropdown
-    populateBusServicesMenu(busServices);
-    populateBusStopsMenu(busStops);
-});
-
 // for calculating Haversine distance between two lat-long
 // from https://stackoverflow.com/a/48805273/17439719
 /**
@@ -121,6 +108,43 @@ const haversineDistance = ([lat1, lon1], [lat2, lon2], isMiles = false) => {
 
     return finalDistance;
 };
+
+function sortBusStopsByDistance() {
+    // get geolocation of user, and sort the stops by distance
+    console.log(
+        "Fetching geolocation and calculating distances to bus stops..."
+    );
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            // console.log(
+            //     "user's position",
+            //     position.coords.latitude,
+            //     position.coords.longitude
+            // );
+
+            // calculate distance to all stops and save that info
+            busStops.forEach(
+                (busStop) =>
+                    (busStop.distanceFromUser = haversineDistance(
+                        [position.coords.latitude, position.coords.longitude],
+                        [busStop.Latitude, busStop.Longitude]
+                    ))
+            );
+            //console.log("busStops array", busStops);
+
+            // sort the busStops array by distance
+            busStops.sort((a, b) => a.distanceFromUser - b.distanceFromUser);
+
+            // populate the Bus Stop picker
+            populateBusStopsMenu(busStops);
+
+            console.log("...finished sorting bus stop options by distance.");
+        },
+        (error) => {
+            console.log("Error when trying to get geolocation:", error);
+        }
+    );
+}
 
 ////////////////////////////////////////////////////////////////////
 // view methods
@@ -333,6 +357,23 @@ let busServices;
 let busRoutes;
 let busStops;
 
+// read in reference data
+readTextFile("data/bus-reference-data.json", function (text) {
+    const datasetList = JSON.parse(text);
+    //console.log(datasetList);
+
+    busServices = datasetList[0].data;
+    busRoutes = datasetList[1].data;
+    busStops = datasetList[2].data;
+
+    // add options to dropdown
+    populateBusServicesMenu(busServices);
+    populateBusStopsMenu(busStops);
+
+    // use user location to sort bus stop options
+    sortBusStopsByDistance();
+});
+
 // load data from local storage, if it exists
 const cardStack = [];
 //console.log("localstorage", localStorage.getItem("cardStack"));
@@ -345,39 +386,6 @@ if (localStorage.getItem("langIndex") !== null) {
     langIndex = localStorage.getItem("langIndex");
 }
 displayProperLanguage(); // run this before page loads
-
-// get geolocation of user, and sort the stops by distance
-console.log("Fetching geolocation and calculating distances to bus stops...");
-navigator.geolocation.getCurrentPosition(
-    (position) => {
-        // console.log(
-        //     "user's position",
-        //     position.coords.latitude,
-        //     position.coords.longitude
-        // );
-
-        // calculate distance to all stops and save that info
-        busStops.forEach(
-            (busStop) =>
-                (busStop.distanceFromUser = haversineDistance(
-                    [position.coords.latitude, position.coords.longitude],
-                    [busStop.Latitude, busStop.Longitude]
-                ))
-        );
-        //console.log("busStops array", busStops);
-
-        // sort the busStops array by distance
-        busStops.sort((a, b) => a.distanceFromUser - b.distanceFromUser);
-
-        // populate the Bus Stop picker
-        populateBusStopsMenu(busStops);
-
-        console.log("...finished sorting bus stop options by distance.");
-    },
-    (error) => {
-        console.log("Error when trying to get geolocation:", error);
-    }
-);
 
 // on page load:
 window.onload = () => {
