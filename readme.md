@@ -1,8 +1,7 @@
-# technologies used
+# Technologies used
 
--   vanilla JS
+-   vanilla JavaScript
 -   vanilla CSS
--   hosted on VPS
 
 Project history: this was a way to push my limits of vanilla HTML, JS, and CSS knowledge.
 
@@ -12,9 +11,18 @@ Project history: this was a way to push my limits of vanilla HTML, JS, and CSS k
 
 # installation instructions
 
+-   clone repository
+-   open it and it should work
+
+pretty simple
+
 # unsolved problems, etc.
 
-# MY STUFF
+# Credit
+
+-   arrivelah for providing the arrivals API
+
+# MY STUFF - prob goes in the wiki?
 
 # features
 
@@ -27,6 +35,7 @@ Project history: this was a way to push my limits of vanilla HTML, JS, and CSS k
 -   language toggle
 -   can "Save to Desktop" on mobile - shows good icon and name
 -   clicking a card expands it to show more details
+-   geolocation: bus stop picker is sorted by distance from user, showing closest bus stops first
 
 -   MVP:
 -   choose bus stop via dropdown

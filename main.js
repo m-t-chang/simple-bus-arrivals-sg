@@ -88,6 +88,40 @@ readTextFile("data/bus-reference-data.json", function (text) {
     populateBusStopsMenu(busStops);
 });
 
+// for calculating Haversine distance between two lat-long
+// from https://stackoverflow.com/a/48805273/17439719
+/**
+ * Calculates the haversine distance between point A, and B.
+ * @param {number[]} latlngA [lat, lng] point A
+ * @param {number[]} latlngB [lat, lng] point B
+ * @param {boolean} isMiles If we are using miles, else km.
+ */
+const haversineDistance = ([lat1, lon1], [lat2, lon2], isMiles = false) => {
+    const toRadian = (angle) => (Math.PI / 180) * angle;
+    const distance = (a, b) => (Math.PI / 180) * (a - b);
+    const RADIUS_OF_EARTH_IN_KM = 6371;
+
+    const dLat = distance(lat2, lat1);
+    const dLon = distance(lon2, lon1);
+
+    lat1 = toRadian(lat1);
+    lat2 = toRadian(lat2);
+
+    // Haversine Formula
+    const a =
+        Math.pow(Math.sin(dLat / 2), 2) +
+        Math.pow(Math.sin(dLon / 2), 2) * Math.cos(lat1) * Math.cos(lat2);
+    const c = 2 * Math.asin(Math.sqrt(a));
+
+    let finalDistance = RADIUS_OF_EARTH_IN_KM * c;
+
+    if (isMiles) {
+        finalDistance /= 1.60934;
+    }
+
+    return finalDistance;
+};
+
 ////////////////////////////////////////////////////////////////////
 // view methods
 ////////////////////////////////////////////////////////////////////
@@ -301,6 +335,61 @@ if (localStorage.getItem("langIndex") !== null) {
     langIndex = localStorage.getItem("langIndex");
 }
 displayProperLanguage(); // run this before page loads
+
+// get geolocation
+navigator.geolocation.getCurrentPosition(
+    (position) => {
+        console.log(
+            "user's position",
+            position.coords.latitude,
+            position.coords.longitude
+        );
+
+        const dist = haversineDistance(
+            [position.coords.latitude, position.coords.longitude],
+            [1.312673, 103.76664133333334]
+        );
+        console.log("distance", dist);
+
+        // // calculate dist to all bus stops, get the closest stop
+        // const closestStop = busStops.reduce((prev, curr) => {
+        //     const distToCurr = haversineDistance(
+        //         [position.coords.latitude, position.coords.longitude],
+        //         [curr.Latitude, curr.Longitude]
+        //     );
+        //     const distToPrev = haversineDistance(
+        //         [position.coords.latitude, position.coords.longitude],
+        //         [prev.Latitude, prev.Longitude]
+        //     );
+        //     if (distToCurr < distToPrev) {
+        //         return curr;
+        //     } else {
+        //         return prev;
+        //     }
+        // });
+        // console.log("closest Stop", closestStop);
+
+        // get the closest 5 stops
+        // first calc distance to all
+        busStops.forEach(
+            (busStop) =>
+                (busStop.distanceFromUser = haversineDistance(
+                    [position.coords.latitude, position.coords.longitude],
+                    [busStop.Latitude, busStop.Longitude]
+                ))
+        );
+        console.log("busStops array", busStops);
+
+        // sort the busStops array
+        busStops.sort((a, b) => a.distanceFromUser - b.distanceFromUser);
+
+        // populate the Bus Stop picker
+        populateBusStopsMenu(busStops);
+    },
+    (error) => {
+        console.log("Error when trying to get geolocation:", error);
+    }
+);
 
 // on page load:
 window.onload = () => {
