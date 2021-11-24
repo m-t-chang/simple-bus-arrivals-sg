@@ -32,15 +32,30 @@
             <div id="loading-footer">Simple Bus Arrivals SG</div>
         </div>
 
-        <header>
-            <!-- <img src="images/bus-192.png" width="48px" /> -->
-
+        <header class="material-shadow">
             <h1>
                 <span lang="en" class="lang-hide">Simple Bus Arrivals SG</span>
                 <span lang="zh">巴士抵达时间</span>
             </h1>
+            <!-- <img src="images/bus-192.png" width="48px" /> -->
             <button id="kebab">⋮</button>
         </header>
+
+        <!-- kebab menu -->
+        <div class="kebab-menu kebab-hide material-shadow">
+            <button id="toggle-lang">Eng / 中文</button>
+            <button id="clear-all">
+                <span lang="en" class="lang-hide">Clear All Data</span>
+                <span lang="zh">清晰显示</span>
+            </button>
+            <div id="admin-controls">
+                <button id="refresh">
+                    <span lang="en" class="lang-hide">Refresh Data</span>
+                    <span lang="zh">刷新数据</span>
+                </button>
+            </div>
+        </div>
+        <div class="kebab-menu-backdrop"></div>
 
         <div id="card-stack">
             <!-- <div class="card">
@@ -77,31 +92,18 @@
             </div>
 
             <button id="add">
-                <span lang="en" class="lang-hide">Add Stop</span>
-                <span lang="zh">加巴士站</span>
+                <span lang="en" class="lang-hide">＋ Add Stop</span>
+                <span lang="zh">＋ 加巴士站</span>
             </button>
         </div>
 
         <br />
         <br />
-        <footer>
-            <button id="toggle-lang">Eng / 中文</button>
-            <button id="clear-all">
-                <span lang="en" class="lang-hide">Clear All Data</span>
-                <span lang="zh">清晰显示</span>
-            </button>
-        </footer>
-
-        <div id="admin-controls">
-            <button id="refresh">
-                <span lang="en" class="lang-hide">Refresh Data</span>
-                <span lang="zh">刷新数据</span>
-            </button>
-        </div>
+        <footer></footer>
 
         <!-- template for card -->
         <template>
-            <div class="card">
+            <div class="card material-shadow"">
                 <div class="card-top">
                     <div class="card-left">
                         <div class="service-no"></div>

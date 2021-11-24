@@ -236,6 +236,25 @@ function displayProperLanguage() {
     });
 }
 
+function openKebabMenu(e) {
+    document.querySelector("div.kebab-menu").classList.add("kebab-show");
+    document.querySelector("div.kebab-menu").classList.remove("kebab-hide");
+    document
+        .querySelector(".kebab-menu-backdrop")
+        .classList.add("kebab-show-backdrop");
+}
+
+function closeKebabMenu(e) {
+    // don't close if the click is on the kebab button, or inside the menu
+    if (e.target.id === "kebab") return;
+    if (e.target.closest(".kebab-menu")) return;
+    document.querySelector("div.kebab-menu").classList.remove("kebab-show");
+    document.querySelector("div.kebab-menu").classList.add("kebab-hide");
+    document
+        .querySelector(".kebab-menu-backdrop")
+        .classList.remove("kebab-show-backdrop");
+}
+
 ////////////////////////////////////////////////////////////////////
 // controller methods
 ////////////////////////////////////////////////////////////////////
@@ -400,6 +419,12 @@ window.onload = () => {
     document
         .querySelector("button#toggle-lang")
         .addEventListener("click", toggleLanguage);
+    document
+        .querySelector("button#kebab")
+        .addEventListener("click", openKebabMenu);
+    document
+        .querySelector("div.kebab-menu-backdrop")
+        .addEventListener("click", closeKebabMenu);
 
     // callback for expanding card
     document.querySelector("#card-stack").addEventListener("click", expandCard);
