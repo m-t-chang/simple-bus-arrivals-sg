@@ -260,6 +260,12 @@ function clearCards() {
 function updateStopsForService(e) {
     //console.log("updating bus stops for ", e.target.value);
 
+    // if input is blank, then display all stops
+    if (e.target.value === "") {
+        populateBusStopsMenu(busStops);
+        return;
+    }
+
     // use reduce to get an array of busStopCodes, instead of filter which gives
     // an array of BusRoute objects
     const stopCodesOnRoute = busRoutes.reduce((prev, elem) => {
@@ -282,6 +288,12 @@ function updateStopsForService(e) {
 
 function updateServicesForStop(e) {
     //console.log("updating bus services for ", e.target.value);
+
+    // if input is blank, then display all services
+    if (e.target.value === "") {
+        populateBusServicesMenu(busServices);
+        return;
+    }
 
     // use reduce to get an array of busServiceNo, instead of filter which gives
     // an array of BusRoute objects
