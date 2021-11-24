@@ -336,41 +336,16 @@ if (localStorage.getItem("langIndex") !== null) {
 }
 displayProperLanguage(); // run this before page loads
 
-// get geolocation
+// get geolocation of user, and sort the stops by distance
 navigator.geolocation.getCurrentPosition(
     (position) => {
-        console.log(
-            "user's position",
-            position.coords.latitude,
-            position.coords.longitude
-        );
+        // console.log(
+        //     "user's position",
+        //     position.coords.latitude,
+        //     position.coords.longitude
+        // );
 
-        const dist = haversineDistance(
-            [position.coords.latitude, position.coords.longitude],
-            [1.312673, 103.76664133333334]
-        );
-        console.log("distance", dist);
-
-        // // calculate dist to all bus stops, get the closest stop
-        // const closestStop = busStops.reduce((prev, curr) => {
-        //     const distToCurr = haversineDistance(
-        //         [position.coords.latitude, position.coords.longitude],
-        //         [curr.Latitude, curr.Longitude]
-        //     );
-        //     const distToPrev = haversineDistance(
-        //         [position.coords.latitude, position.coords.longitude],
-        //         [prev.Latitude, prev.Longitude]
-        //     );
-        //     if (distToCurr < distToPrev) {
-        //         return curr;
-        //     } else {
-        //         return prev;
-        //     }
-        // });
-        // console.log("closest Stop", closestStop);
-
-        // get the closest 5 stops
-        // first calc distance to all
+        // calculate distance to all stops and save that info
         busStops.forEach(
             (busStop) =>
                 (busStop.distanceFromUser = haversineDistance(
@@ -380,7 +355,7 @@ navigator.geolocation.getCurrentPosition(
         );
         console.log("busStops array", busStops);
 
-        // sort the busStops array
+        // sort the busStops array by distance
         busStops.sort((a, b) => a.distanceFromUser - b.distanceFromUser);
 
         // populate the Bus Stop picker
