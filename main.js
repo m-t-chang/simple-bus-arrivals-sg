@@ -245,9 +245,6 @@ function openKebabMenu(e) {
 }
 
 function closeKebabMenu(e) {
-    // don't close if the click is on the kebab button, or inside the menu
-    if (e.target.id === "kebab") return;
-    if (e.target.closest(".kebab-menu")) return;
     document.querySelector("div.kebab-menu").classList.remove("kebab-show");
     document.querySelector("div.kebab-menu").classList.add("kebab-hide");
     document
@@ -293,9 +290,20 @@ function refreshData() {
 }
 
 function clearCards() {
-    localStorage.clear();
-    cardStack.length = 0;
-    displayCards();
+    if (window.confirm("Clear cards and local storage?")) {
+        // clears local storage
+        // this also affects language preference
+        localStorage.clear();
+
+        // clear cards on the screen
+        cardStack.length = 0;
+        displayCards();
+    } else {
+        // do nothing
+        return;
+    }
+
+    closeKebabMenu();
 }
 
 function updateStopsForService(e) {
