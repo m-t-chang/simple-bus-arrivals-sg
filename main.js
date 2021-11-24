@@ -287,6 +287,8 @@ function refreshData() {
     console.log(datetime);
 
     updateCardStack();
+
+    closeKebabMenu();
 }
 
 function clearCards() {

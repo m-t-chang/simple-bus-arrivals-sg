@@ -149,7 +149,9 @@ span.lang-hide {
 #add {
     display: block;
     margin: 16px 0 auto auto;
+}
 
+.material-button-medium {
     background-color: white;
     border: 1.5px solid var(--grey3);
     color: var(--grey3);
@@ -173,26 +175,33 @@ button#kebab {
 div.kebab-menu {
     position: absolute;
     background: white;
-    top: 0;
-    right: 0;
-    transition: width 0.5s ease;
+
+    transition: all 0.5s ease;
     z-index: 10;
+    border-radius: 10px;
+
+    top: 10px;
+    right: 10px;
+    width: 250px;
+    padding: 16px;
 }
 
 .kebab-hide {
-    width: 0px;
+    display: none;
 }
 
 .kebab-show {
-    width: 200px;
+    display: block;
 }
 
 .kebab-menu button {
     background-color: transparent;
-    font-size: 32px;
+    font-size: 24px;
     text-align: left;
     border: 1px solid var(--grey1);
     width: 100%;
+    white-space: nowrap;
+    padding: 20px 16px;
 }
 
 .kebab-menu-backdrop {
