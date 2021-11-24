@@ -7,9 +7,11 @@
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Share+Tech&display=swap"
             rel="stylesheet"
         />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link rel="stylesheet" href="style.css" />
         <title>Simple Bus Arrivals SG</title>
         <meta
@@ -27,14 +29,17 @@
                 <span lang="en" class="lang-hide">Where's the bus?</span>
                 <span lang="zh">巴士什么时候到？</span>
             </div>
-            <div></div>
+            <div id="loading-footer">Simple Bus Arrivals SG</div>
         </div>
 
         <header>
+            <!-- <img src="images/bus-192.png" width="48px" /> -->
+
             <h1>
-                <span lang="en" class="lang-hide">Bus Arrival Times</span>
+                <span lang="en" class="lang-hide">Simple Bus Arrivals SG</span>
                 <span lang="zh">巴士抵达时间</span>
             </h1>
+            <button id="kebab">⋮</button>
         </header>
 
         <div id="card-stack">
@@ -52,7 +57,7 @@
 
             <div>
                 <label for="select-stop">
-                    <span lang="en" class="lang-hide">Bus Stop Code:</span>
+                    <span lang="en" class="lang-hide">Bus Stop:</span>
                     <span lang="zh">巴士站：</span>
                 </label>
                 <input list="list-stops" id="select-stop" name="busStop" />

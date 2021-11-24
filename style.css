@@ -1,24 +1,44 @@
+:root {
+    /* 32. Production Portugal from https://graphicmama.com/blog/website-color-schemes/ */
+    --red: #e9322e;
+    --grey1: #959794;
+    --grey2: #45433e;
+    --grey3: #19171a;
+}
+
 body,
 button {
     font-family: "Open Sans", sans-serif;
 }
 
+h1,
+.loading {
+    font-family: "Share Tech", sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    background-color: lightseagreen;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    height: 60px;
+}
+
 body {
-    background-color: azure;
-    background-color: indigo;
-    background-image: linear-gradient(
-        270deg,
-        rgb(28, 3, 46) 0%,
-        darkslateblue 50%,
-        rgb(28, 3, 46) 100%
-    );
+    background-color: white;
     margin: 0;
+    color: var(--grey3);
 }
 
 h1 {
     margin: auto;
-    text-align: center;
+    padding-left: 16px;
+    text-align: left;
     color: white;
+    flex-grow: 1;
+    font-size: 28px;
 }
 
 h2 {
@@ -28,7 +48,6 @@ h2 {
 .card {
     margin: 3px auto;
     padding: 12px 14px;
-    border: 1px solid lightgrey;
     border-radius: 10px;
     width: 90%;
     background-color: white;
@@ -90,17 +109,23 @@ h2 {
     max-width: 500px;
 }
 
-#add-new {
+div#add-new {
     display: block;
-    font-size: 16px;
+    font-size: 20px;
     padding-bottom: 10px;
-    text-align: center;
-    border: 2px dashed lightgrey;
+    text-align: left;
+    border: 1px dashed lightgrey;
     box-shadow: none;
     background-color: transparent;
     max-width: 450px;
-    line-height: 1.8;
-    color: white;
+    line-height: 2;
+    color: var(--grey3);
+}
+
+div#add-new input {
+    line-height: 1.4em;
+    font-size: 20px;
+    width: 100px;
 }
 
 .expanded-card {
@@ -118,6 +143,32 @@ footer {
 
 span.lang-hide {
     display: none;
+}
+
+button {
+    background-color: white;
+    border: 1.5px solid var(--grey3);
+    color: var(--grey3);
+    border-radius: 8px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 20px;
+    padding: 12px 20px;
+}
+
+#add {
+    display: block;
+    margin: 16px 0 auto auto;
+}
+
+#kebab {
+    background-color: transparent;
+    color: white;
+    text-transform: none;
+    font-size: 24px;
+    font-weight: bold;
+    border: none;
+    margin-right: 4px;
 }
 
 /* ==================================================================
@@ -139,9 +190,19 @@ span.lang-hide {
     text-align: center;
 
     /* fonts */
-    font-size: xx-large;
+    font-size: 36px;
     color: white;
     font-weight: bold;
+}
+
+.loading > #loading-footer {
+    position: absolute;
+    bottom: 32px;
+    left: 0;
+    right: 0;
+    font-size: 24px;
+    font-weight: normal;
+    margin: auto;
 }
 
 div.hidden {
