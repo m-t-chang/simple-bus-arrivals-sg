@@ -95,24 +95,26 @@
         </div>
 
         <!-- template for card -->
-        <div class="card" id="card-template" style="display: none">
-            <div class="card-top">
-                <div class="card-left">
-                    <div class="service-no"></div>
-                    <div class="stop-description"></div>
-                    <div class="stop-road"></div>
-                </div>
-                <div class="card-right">
-                    <div class="duration"></div>
-                    <div class="mins">
-                        <span lang="en" class="">mins</span>
-                        <span lang="zh" class="lang-hide">分钟</span>
+        <template>
+            <div class="card">
+                <div class="card-top">
+                    <div class="card-left">
+                        <div class="service-no"></div>
+                        <div class="stop-description"></div>
+                        <div class="stop-road"></div>
+                    </div>
+                    <div class="card-right">
+                        <div class="duration"></div>
+                        <div class="mins">
+                            <span lang="en" class="">mins</span>
+                            <span lang="zh" class="lang-hide">分钟</span>
+                        </div>
                     </div>
                 </div>
+                <div class="card-bottom"></div>
+                <!-- <div class="fold-arrow">^</div> -->
             </div>
-            <div class="card-bottom"></div>
-            <!-- <div class="fold-arrow">^</div> -->
-        </div>
+        </template>
 
         <script type="text/javascript" src="config.js"></script>
         <script src="main.js" type="application/javascript"></script>

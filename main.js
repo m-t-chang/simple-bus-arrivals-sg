@@ -136,10 +136,8 @@ function displayCards() {
 
         // get card template
         const divCard = document
-            .querySelector("#card-template")
-            .cloneNode(true);
-        divCard.removeAttribute("style");
-        divCard.removeAttribute("id");
+            .querySelector("template")
+            .content.cloneNode(true);
 
         // modify elements
         divCard.querySelector(".stop-description").innerText =
