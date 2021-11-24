@@ -363,7 +363,7 @@ navigator.geolocation.getCurrentPosition(
                     [busStop.Latitude, busStop.Longitude]
                 ))
         );
-        console.log("busStops array", busStops);
+        //console.log("busStops array", busStops);
 
         // sort the busStops array by distance
         busStops.sort((a, b) => a.distanceFromUser - b.distanceFromUser);
