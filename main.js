@@ -35,7 +35,8 @@ const fetchArrivalsForCard = async (card) => {
     //console.log(card);
 
     // update display after updating data
-    displayCards();
+    //displayCards();
+    displayCardDurations();
 };
 
 class ArrivalCard {
@@ -179,6 +180,27 @@ function displayCards() {
     });
 }
 
+/*
+This is supposed to be a subset of displayCards function
+It only updates the durations. 
+*/
+function displayCardDurations() {
+    // get all the cards from the DOM,
+    // Iterate thru each one,.
+    // and update the duration fields from the data
+    const divCardArray = document.querySelector("#card-stack").children;
+
+    for (let i = 0; i < divCardArray.length; i++) {
+        //console.log(divCardArray[i]);
+        divCardArray[i].querySelector(".duration").innerText =
+            cardStack[i].duration >= 0 ? cardStack[i].duration : 0;
+
+        divCardArray[i].querySelector(".card-bottom").innerText = `Later buses:
+            ${cardStack[i].duration2} mins
+            ${cardStack[i].duration3} mins`;
+    }
+}
+
 function getBusStopDescription(busStop) {
     // input a busStop object
     // return a string
@@ -261,7 +283,10 @@ function addCard() {
     const selectedService = document.querySelector("#select-service").value;
     cardStack.push(new ArrivalCard(selectedStop, selectedService));
 
-    // update data and draw cards
+    // draw cards
+    displayCards();
+
+    // update data and display
     refreshData();
 
     // reset the inputs
@@ -453,13 +478,15 @@ window.onload = () => {
         .querySelector("#select-stop")
         .addEventListener("change", updateServicesForStop);
 
+    // draw the cards
+    displayCards();
+
     // refresh data
-    // this calls displayCards after data is loaded
+    // this calls displayCardDurations after data is loaded
     refreshData();
 
     // start repeating to update
-    //setInterval(refreshData, 5000);
-    // DEBUG: pausing the refresh so i can inspect elements
+    setInterval(refreshData, 15000);
 
     ////////////////////////////////////////////////////////////////////
     // loading overlay
