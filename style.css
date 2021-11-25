@@ -257,8 +257,6 @@ div.kebab-menu {
 }
 
 div.hidden {
-    transition: top 0.4s ease-in, opacity 1s ease-in;
+    transition: top 0.4s ease-in;
     top: -100%;
-    opacity: 1;
-    /* leaving opacity in in case I want to use that later */
 }
