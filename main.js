@@ -1,21 +1,19 @@
 "use strict";
 
 ////////////////////////////////////////////////////////////////////
-// model methods
+// data handling functions
 ////////////////////////////////////////////////////////////////////
 
-// wrapper function to generate the URL for API call by inserting the parameter
-// into the URL string
 // API is LTA DataMall
 // using ArriveLah's proxy server to access LTA data. See https://github.com/cheeaun/arrivelah
-function busArrivalApiCall(busStopCode) {
-    return `https://arrivelah2.busrouter.sg/?id=${busStopCode}`;
-}
-
-// copied from https://stackoverflow.com/questions/36975619/how-to-call-a-rest-web-service-api-from-javascript
-// using Fetch API https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+/**
+ * Async function to fetch arrival data for one ArrivalCard, store it, and updates display
+ * @param {ArrivalCard} card ArrivalCard to update data for
+ */
 const fetchArrivalsForCard = async (card) => {
-    const response = await fetch(busArrivalApiCall(card.busStopCode));
+    const response = await fetch(
+        `https://arrivelah2.busrouter.sg/?id=${card.busStopCode}`
+    );
     const myJson = await response.json(); //extract JSON from the http response
 
     // update the card with the returned data
@@ -35,18 +33,21 @@ const fetchArrivalsForCard = async (card) => {
     //console.log(card);
 
     // update display after updating data
-    //displayCards();
     displayCardDurations();
 };
 
+/**
+ * A class to store arrival times for one bus service at one bus stop.
+ * Also stores other relevant info.
+ * Used to simplify storage, retrieval, and display of arrival data.
+ */
 class ArrivalCard {
     constructor(busStopCode, serviceNo) {
         this.busStopCode = busStopCode;
         this.serviceNo = serviceNo;
         this.duration = null;
         this.arrivalObject = null;
-        // this needs to store busStopCode as well. But I'm not sure what the data will look like yet
-        // also data updating. The card should probably store the estimated arrival time,
+        // Note: The card should probably store the estimated arrival time,
         //      then calculate the duration on a faster refresh (1s? 5s?) than the data update.
 
         this.stopObject = busStops.find(
@@ -56,12 +57,11 @@ class ArrivalCard {
     }
 }
 
-function updateCardStack() {
-    // for each card, call the api
-    cardStack.map(fetchArrivalsForCard);
-}
-
-//////// read in JSON file with bus reference data
+/**
+ * read in JSON file with bus reference data
+ * @param {*} file
+ * @param {*} callback
+ */
 // second answer from https://stackoverflow.com/questions/19706046/how-to-read-an-external-local-json-file-in-javascript
 function readTextFile(file, callback) {
     const rawFile = new XMLHttpRequest();
@@ -146,10 +146,24 @@ function sortBusStopsByDistance() {
     );
 }
 
-////////////////////////////////////////////////////////////////////
-// view methods
-////////////////////////////////////////////////////////////////////
+/**
+ * Create a readable description of a busStop object.
+ * @param {*} busStop
+ * @returns string
+ */
+function getBusStopDescription(busStop) {
+    // input a busStop object
+    // return a string
+    //return `${busStop.BusStopCode} - ${busStop.RoadName} - ${busStop.Description}`;
+    return `${busStop.RoadName} - ${busStop.Description}`;
+}
 
+////////////////////////////////////////////////////////////////////
+// view functions - those that alter the DOM
+////////////////////////////////////////////////////////////////////
+/**
+ * Clear all ArrivalCards from the DOM and re-draw them from the data.
+ */
 function displayCards() {
     // wipe the prev display
     document.querySelector("#card-stack").textContent = "";
@@ -180,10 +194,9 @@ function displayCards() {
     });
 }
 
-/*
-This is supposed to be a subset of displayCards function
-It only updates the durations. 
-*/
+/**
+ * Similar to displayCards, but only updates durations with minimal DOM editing.
+ */
 function displayCardDurations() {
     // get all the cards from the DOM,
     // Iterate thru each one,.
@@ -199,13 +212,6 @@ function displayCardDurations() {
             ${cardStack[i].duration2} mins
             ${cardStack[i].duration3} mins`;
     }
-}
-
-function getBusStopDescription(busStop) {
-    // input a busStop object
-    // return a string
-    //return `${busStop.BusStopCode} - ${busStop.RoadName} - ${busStop.Description}`;
-    return `${busStop.RoadName} - ${busStop.Description}`;
 }
 
 function populateBusStopsMenu(busStopsArray) {
@@ -227,17 +233,6 @@ function populateBusServicesMenu(busServicesArray) {
         opt.innerText = elem.ServiceNo;
         document.querySelector("#list-services").append(opt);
     });
-}
-
-function toggleLanguage() {
-    // advance the counter
-    langIndex++;
-    if (langIndex === langOptions.length) langIndex = 0;
-
-    // save it
-    localStorage.setItem("langIndex", langIndex);
-
-    displayProperLanguage();
 }
 
 function displayProperLanguage() {
@@ -274,7 +269,7 @@ function closeKebabMenu(e) {
 }
 
 ////////////////////////////////////////////////////////////////////
-// controller methods
+// controller methods - those that handle program flow, such as callbacks
 ////////////////////////////////////////////////////////////////////
 
 function addCard() {
@@ -300,8 +295,8 @@ function addCard() {
 }
 
 function refreshData() {
-    var currentdate = new Date();
-    var datetime =
+    const currentdate = new Date();
+    const datetime =
         "Refreshing data: " +
         currentdate.getDate() +
         "/" +
@@ -316,7 +311,8 @@ function refreshData() {
         currentdate.getSeconds();
     console.log(datetime);
 
-    updateCardStack();
+    // update each card's data
+    cardStack.map(fetchArrivalsForCard);
 
     closeKebabMenu();
 }
@@ -407,11 +403,23 @@ function expandCard(e) {
     card.querySelector(".card-bottom").classList.toggle("expanded-card");
 }
 
+function toggleLanguage() {
+    // advance the counter
+    langIndex++;
+    if (langIndex === langOptions.length) langIndex = 0;
+
+    // save it
+    localStorage.setItem("langIndex", langIndex);
+
+    displayProperLanguage();
+}
+
 ////////////////////////////////////////////////////////////////////
 // main code
 ////////////////////////////////////////////////////////////////////
 
 // define global variables
+const cardStack = []; // array of ArrivalCards
 let busServices;
 let busRoutes;
 let busStops;
@@ -433,12 +441,12 @@ readTextFile("data/bus-reference-data.json", function (text) {
     sortBusStopsByDistance();
 });
 
-// load data from local storage, if it exists
-const cardStack = [];
-//console.log("localstorage", localStorage.getItem("cardStack"));
+// load ArrivalCards from local storage, if it exists
 if (localStorage.getItem("cardStack") !== null) {
     cardStack.push(...JSON.parse(localStorage.getItem("cardStack")));
 }
+
+// load language preference from local storage
 const langOptions = ["en", "zh"];
 let langIndex = 0; // default is english
 if (localStorage.getItem("langIndex") !== null) {
@@ -448,7 +456,7 @@ displayProperLanguage(); // run this before page loads
 
 // on page load:
 window.onload = () => {
-    // add callbacks
+    // button callbacks
     document
         .querySelector("button#refresh")
         .addEventListener("click", refreshData);
@@ -458,6 +466,8 @@ window.onload = () => {
     document
         .querySelector("button#toggle-lang")
         .addEventListener("click", toggleLanguage);
+
+    // kebab menu callbacks
     document
         .querySelector("button#kebab")
         .addEventListener("click", openKebabMenu);
@@ -465,12 +475,12 @@ window.onload = () => {
         .querySelector("div.kebab-menu-backdrop")
         .addEventListener("click", closeKebabMenu);
 
-    // callback for expanding card
+    // expanding card callback
     document.querySelector("#card-stack").addEventListener("click", expandCard);
 
-    // note: this callback is on change, not input.
-    // Input would be faster, maybe, but more resource intensive?
-    // https://www.w3schools.com/jsref/obj_event.asp
+    // input box callbacks
+    //      note: this callback is on change, not input.
+    //      Input would be faster, maybe, but more resource intensive? https://www.w3schools.com/jsref/obj_event.asp
     document
         .querySelector("#select-service")
         .addEventListener("change", updateStopsForService);
@@ -478,19 +488,15 @@ window.onload = () => {
         .querySelector("#select-stop")
         .addEventListener("change", updateServicesForStop);
 
-    // draw the cards
+    // draw the ArrivalCards
     displayCards();
 
     // refresh data
-    // this calls displayCardDurations after data is loaded
+    // note: this will call displayCardDurations after data is loaded
     refreshData();
 
-    // start repeating to update
+    // refresh data on a regular interval
     setInterval(refreshData, 15000);
-
-    ////////////////////////////////////////////////////////////////////
-    // loading overlay
-    ////////////////////////////////////////////////////////////////////
 
     // hide the loading screen after a certain amount of time
     const loadingOverlay = document.querySelector("div.loading");
