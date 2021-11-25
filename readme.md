@@ -1,60 +1,41 @@
-# Technologies used
+# Simple Bus Arrivals SG
 
--   vanilla JavaScript
--   vanilla CSS
+Simple Bus Arrivals SG is an accessible and mobile-first web app for checking bus arrival timings in Singapore. It is intended for users who have trouble reading small fonts, have reduced finger dexterity, are not English speakers, are unfamiliar with technology, or just want a distraction-free app to check bus arrival times.
 
-Project history: this was a way to push my limits of vanilla HTML, JS, and CSS knowledge.
+-   Large, high-contrast fonts
+-   Selected bus stops and services are saved to your browser's local storage
+-   Detects your location for easy bus stop selection
+-   Multiple languages
 
-# the approach taken
+## Technologies Used
 
--   designed for mobile
--   design based on Google Material Design and Transit app
+-   Vanilla HTML5, CSS3, and JavaScript (ES6)
+-   Node.js (only needed to run the script that downloads bus service/route/stop data)
 
-# installation instructions
+## Usage Instructions
 
--   clone repository
--   open it and it should work
+The app is hosted at https://m-t-chang.github.io/simple-bus-arrivals-sg/.
 
-for web hosting,
-note that https is required for geolocation API to work.
+For quick access on a mobile device, you can add the app to your home screen. In Android Chrome, use the "Add to Home screen" menu option.
 
-# unsolved problems
+## Installation Instructions
 
-# Credit
+To set up your own version of this app, simply clone repository and it should work.
 
--   arrivelah for providing the arrivals API
--   cheean and BusRouter for inspiration
+Note that HTTPS is required for the geolocation API to work.
 
-# MY STUFF - prob goes in the wiki?
+If LTA changes bus services, routes, or stops, run "get-LTA-data.mjs" to download new data from LTA's API and create a new JSON file.
 
-# features
+## Known Issues
 
--   big font for usability
--   loading screen, using CSS class toggle and transitions
--   read data from LTA, which requires multiple reads because it only givecs 500 rows at a time, and there are 700 services, 5000 stops, and 20,000 entries in Routes table.
--   choose stops and services with dropdowns
--   bus stop and service selector automatically detect and only list legit values
--   save your favorites with localStorage
--   language toggle
--   can "Save to Desktop" on mobile - shows good icon and name
--   clicking a card expands it to show more details
--   geolocation: bus stop picker is sorted by distance from user, showing closest bus stops first
--   pop-out kebab menu for additional settings and info
+-   User is allowed to add a new stop without filling in both Bus Stop and Bus Service No. fields.
+-   Inputs are not validated.
+-   Bug: if the user enters a value into Bus Stop before the code finishes finding the closest bus stops, the process doesn't complete and the Bus Stops never get sorted by distance.
+-   Some parts of the website are not translated to both languages.
+-   The website should inform the user when no bus arrival time is retrieved (e.g. the service is not currently running) instead of simply not displaying a number.
+-   There is no UI element to indicate that the arrival time cards can be clicked on to reveal more information.
+-   The data source has information that is not included, such as the direction of the bus service, terminal stop, hours of service, capacity, etc.
 
--   MVP:
--   choose bus stop via dropdown
--   choose bus #
-    -   dynamically change the bus numbers per bus stop chosen
--   save stops
-    -   be able to select bus route and stop, and save it in local storage, so it's kept between browser sessions
+## Credits
 
-# how it works
-
--   Arrival card class
--   objects - arrival; bus stop; route
-
-# next steps
-
--   deal with duplicate services, like services in two directions
--   deal with service outage, or bus not in service at this time
--   (more noted in Notion)
+Many thanks to **[arrivelah](https://github.com/cheeaun/arrivelah)** for providing an API to access LTA's bus arrival time data.
