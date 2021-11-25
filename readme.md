@@ -8,19 +8,22 @@ Project history: this was a way to push my limits of vanilla HTML, JS, and CSS k
 # the approach taken
 
 -   designed for mobile
+-   design based on Google Material Design and Transit app
 
 # installation instructions
 
 -   clone repository
 -   open it and it should work
 
-pretty simple
+for web hosting,
+note that https is required for geolocation API to work.
 
-# unsolved problems, etc.
+# unsolved problems
 
 # Credit
 
 -   arrivelah for providing the arrivals API
+-   cheean and BusRouter for inspiration
 
 # MY STUFF - prob goes in the wiki?
 
@@ -36,6 +39,7 @@ pretty simple
 -   can "Save to Desktop" on mobile - shows good icon and name
 -   clicking a card expands it to show more details
 -   geolocation: bus stop picker is sorted by distance from user, showing closest bus stops first
+-   pop-out kebab menu for additional settings and info
 
 -   MVP:
 -   choose bus stop via dropdown
