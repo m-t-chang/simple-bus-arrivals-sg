@@ -47,6 +47,8 @@ h1 {
 
 h2 {
     margin: 0;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .card {
@@ -72,23 +74,22 @@ h2 {
 }
 .card-right {
     text-align: center;
-    width: 20%;
+    width: 25%;
     flex-grow: 0;
 }
 
-.stop-description,
-.stop-road {
-    font-size: 20px;
+.stop-description {
+    font-size: 48px;
+}
+.stop-road,
+.mins {
+    font-size: 24px;
 }
 
 .service-no,
 .duration {
-    font-size: 64px;
+    font-size: 80px;
     font-weight: bold;
-}
-
-.mins {
-    font-size: 20px;
 }
 
 .card-bottom {
